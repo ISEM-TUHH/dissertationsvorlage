@@ -1,0 +1,8 @@
+# Zeilenenden im Repository einheitlich als LF, in der Arbeitskopie so, wie
+# das jeweilige System es erwartet.
+* text=auto
+
+# Binärdateien nicht anfassen.
+*.pdf   binary
+*.png   binary
+*.icc   binary
