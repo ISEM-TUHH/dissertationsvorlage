@@ -1,0 +1,41 @@
+ISEM-Dissertationsvorlage — Bestandteile Dritter
+================================================
+
+Die Vorlage steht unter CC0 1.0: gemeinfrei, so weit das Recht es zulässt.
+Du darfst sie kopieren, ändern und weitergeben, auch gewerblich, ohne uns zu
+nennen und ohne zu fragen.
+
+Der volle Rechtstext steht in LICENSE.
+
+
+Was nicht unter CC0 fällt
+-------------------------
+
+Vier Bestandteile gehören nicht uns oder tragen eine eigene Lizenz. Sie sind
+von der Freigabe ausgenommen:
+
+1. ISEM-Zitationsstil.csl (auch Innenteil/ISEM-Zitationsstil.csl)
+   Abgeleitet vom APA-Stil aus dem CSL-Verzeichnis und deshalb weiterhin
+   unter Creative Commons Attribution-ShareAlike 3.0. Die Lizenz steht im
+   Kopf der Datei selbst. Wer den Stil ändert und weitergibt, muss die
+   Änderung unter derselben Lizenz weitergeben.
+   https://creativecommons.org/licenses/by-sa/3.0/
+
+2. Die Logos der TUHH und des ISEM
+   Cover/assets/isem-logo.svg, Cover/src/logos.typ und ihre Verwendung im
+   Umschlag. Es sind Kennzeichen der Technischen Universität Hamburg und
+   ihres Instituts. CC0 gibt ausdrücklich keine Marken- oder
+   Kennzeichenrechte weiter. Wer die Vorlage für eine eigene Reihe nutzt,
+   ersetzt sie durch die eigenen.
+
+3. ISOcoated_v2_300_eci.icc
+   Farbprofil der European Color Initiative, unter deren eigenen Bedingungen
+   frei nutzbar und unverändert weiterzugeben. https://www.eci.org
+
+4. Cambria und Cambria Math
+   Schriften von Microsoft. Sie liegen dieser Vorlage nicht bei, sondern
+   Windows und Office. Wer die Vorlage nutzt, braucht eine eigene Lizenz
+   dafür — in aller Regel hat er sie mit dem Betriebssystem.
+
+Der Text einer damit gesetzten Arbeit gehört selbstverständlich ihrer
+Autorin oder ihrem Autor. CC0 betrifft nur die Vorlage.

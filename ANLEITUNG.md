@@ -614,7 +614,16 @@ Cover/
 
 ## 13. Lizenz
 
+Die Vorlage steht unter **CC0 1.0** — gemeinfrei, so weit das Recht es
+zulässt. Du darfst sie kopieren, ändern und weitergeben, auch gewerblich,
+ohne uns zu nennen und ohne zu fragen. Der Text deiner Arbeit gehört
+selbstverständlich dir; CC0 betrifft nur die Vorlage.
+
+Ausgenommen sind vier Bestandteile, die uns nicht gehören oder eine eigene
+Lizenz tragen: der Zitierstil, die Logos von TUHH und ISEM, das Farbprofil
+der ECI und die Schrift Cambria. Die Einzelheiten stehen in `NOTICE`.
+
 Das Layout in `Innenteil/src/isem.typ` ist für diese Reihe geschrieben. Es
-bildet die Referenzfassung `Diss_Artur_Krause_ISEM-Vorlage.pdf` nach:
-Satzspiegel, Schriftgrade, Abstände, Kopfzeilen und Beschriftungen sind aus
-jener Datei ausgemessen und im Kopf des Moduls dokumentiert.
+bildet eine ältere, in Word gesetzte Referenzfassung nach: Satzspiegel,
+Schriftgrade, Abstände, Kopfzeilen und Beschriftungen sind aus jener Datei
+ausgemessen und im Kopf des Moduls dokumentiert.

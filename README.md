@@ -170,6 +170,19 @@ auch in einer neuen Arbeit. Der Band liegt in einem eigenen, nicht
 
 ---
 
+## Lizenz
+
+**[CC0 1.0](LICENSE)** — gemeinfrei, so weit das Recht es zulässt. Nimm sie,
+ändere sie, gib sie weiter, auch gewerblich. Du musst uns nicht nennen und
+nicht fragen. Wenn du magst, sag uns trotzdem Bescheid — wir freuen uns.
+
+Vier Bestandteile sind davon ausgenommen, weil sie uns nicht gehören oder
+eine eigene Lizenz tragen: der Zitierstil (CC BY-SA 3.0, abgeleitet vom
+APA-Stil), die Logos von TUHH und ISEM, das Farbprofil der ECI und die
+Schrift Cambria. Die Einzelheiten stehen in **[NOTICE](NOTICE)**.
+
+---
+
 ## Mitmachen
 
 Fehler und Wünsche gern als Issue. Wenn dir beim Schreiben etwas auffällt,
