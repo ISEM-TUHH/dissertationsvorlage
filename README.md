@@ -46,7 +46,7 @@ Typst baut dann bei jedem Speichern neu — meist in unter einer Sekunde.
 | **Python** ab 3.10 | Prüfskripte und Druckdateien | [python.org](https://www.python.org) |
 | **Ghostscript** | CMYK-Wandlung des Innenteils | [ghostscript.com](https://www.ghostscript.com) |
 | **Cambria** | die Schrift der Reihe | liegt jedem Windows und jedem Office bei |
-| PyMuPDF, Pillow | für die Skripte | `pip install pymupdf pillow` |
+| PyMuPDF, Pillow | für die Skripte | `pip install -r requirements.txt` |
 
 Das Farbprofil `ISOcoated_v2_300_eci.icc` liegt bei. Es stammt vom
 [European Color Initiative](https://www.eci.org) und darf frei verwendet
@@ -110,6 +110,26 @@ python tools/pruefen.py           # Druckvorgaben: Format, Beschnitt, Farbe, Sch
 python tools/tuhh_pruefen.py      # Formalia der TUHH
 python tools/umbruch_pruefen.py   # Hurenkinder, Schusterjungen, Trennungen
 ```
+
+### Werkzeuge für die Übernahme einer bestehenden Arbeit
+
+Acht der Skripte erwarten als Argument ein Original-PDF. Sie werden nur
+gebraucht, wenn eine bereits gesetzte Arbeit in die Reihe übernommen wird —
+so ist Band 000 entstanden. Für eine neu geschriebene Dissertation sind sie
+ohne Bedeutung:
+
+```powershell
+python tools/textabdeckung.py <original.pdf>            # fehlt Text?
+python tools/fussnoten_wortlaut.py <original.pdf>       # stimmt jede Fußnote?
+python tools/fussnoten_mengen.py <original.pdf>         # fehlt oder doppelt?
+python tools/fussnote_original.py <original.pdf> 42     # Wortlaut einer Fußnote
+python tools/zitate_richtigstellen.py <original.pdf> 2  # richtige Quelle zitiert?
+python tools/abbildungen_pruefen.py <original.pdf>      # Abbildung abgeschnitten?
+python tools/aufzaehlungen_abgleichen.py <original.pdf> # Aufzählung abgegrenzt?
+python tools/absaetze_zusammenfuehren.py <original.pdf> # Absatz zerrissen?
+```
+
+### Umbruch beheben, ohne den Text zu ändern
 
 Zwei Werkzeuge beheben Umbruchprobleme selbst, **ohne den Text zu ändern** —
 über eine unsichtbare Klammer um das umbrechende Wort oder über lokal

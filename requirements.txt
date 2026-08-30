@@ -1,0 +1,14 @@
+# Python-Pakete für die Prüfskripte und die Druckdateien.
+#     pip install -r requirements.txt
+#
+# Nicht über pip zu bekommen und getrennt zu installieren:
+#   Typst        ab 0.13    winget install Typst.Typst
+#   Ghostscript  ab 10.0    https://www.ghostscript.com  (CMYK-Wandlung)
+#   Cambria                 liegt Windows und Office bei (Schrift der Reihe)
+
+# PDF lesen und schreiben: Seitenmaße, Farbräume, Schriften, Rahmenboxen,
+# Textextraktion für die Umbruch- und Abgleichprüfungen.
+pymupdf>=1.24
+
+# Bildmaße für die Auflösungsprüfung der Abbildungen.
+pillow>=10.0
