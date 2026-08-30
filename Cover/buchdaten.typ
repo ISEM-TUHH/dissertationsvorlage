@@ -11,7 +11,7 @@
 
   // Seitenzahl des gedruckten Buchblocks (Papierseiten, nicht Blätter).
   // Daraus wird die Bundstärke berechnet und daraus das Umschlagformat.
-  seiten: 48,
+  seiten: 52,
 
   // --- Reihe ------------------------------------------------------------
   reihe: "Forschungsberichte des ISEM",

@@ -11,6 +11,14 @@ Aus einer Quelle entstehen drei Dateien:
 | Onlinefassung | `build/Onlineversion/dissertation.pdf` | zum Lesen und Verschicken |
 | Archivfassung | `build/Archivversion/innenteil.pdf` | für TORE und die DNB |
 
+| Kapitelanfang und Folgeseite | Umschlag |
+|---|---|
+| ![Zwei Seiten aus dem Satz](docs/vorschau-satz.png) | ![Titelseite des Umschlags](docs/vorschau-umschlag.png) |
+
+Beides stammt aus dem Demoband, den `.auen.ps1` erzeugt. Er liegt auch
+fertig bei den [Releases](../../releases) — ein Klick statt einer
+Installation.
+
 Gesetzt wird mit [Typst](https://typst.app). Wenn du noch nie damit gearbeitet
 hast: Das ist kein Hindernis. Du schreibst in gewöhnlichen Textdateien, und
 ein Befehl baut daraus das fertige Buch.
@@ -167,6 +175,15 @@ Band 000 der Reihe — die Dissertation von Nikola Bursać — ist mit dieser
 Vorlage gesetzt und dient als Belegexemplar: alles, was dort läuft, läuft
 auch in einer neuen Arbeit. Der Band liegt in einem eigenen, nicht
 öffentlichen Repository; wer hineinsehen möchte, meldet sich beim Institut.
+
+---
+
+## Fassungen
+
+Was sich von Fassung zu Fassung ändert, steht in
+**[CHANGELOG.md](CHANGELOG.md)**. Notiere in , mit
+welcher Fassung du begonnen hast — dann ist später nachvollziehbar, warum
+ein älterer Band anders aussieht als ein neuer.
 
 ---
 

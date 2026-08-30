@@ -558,7 +558,9 @@
   // ── Formeln ─────────────────────────────────────────────────────────────
   // Nummeriert wird nur, was ausdruecklich mit `numbered-equation` gesetzt
   // wird - abgesetzte Formeln ohne Nummer bleiben ohne.
-  show math.equation.where(block: true): it => raster-block(vor: 1, it)
+  // Eine abgesetzte Gleichung bekommt oben und unten je eine Rasterzeile.
+  // Ohne den Abstand nach unten klebt der Folgesatz an der Formel.
+  show math.equation.where(block: true): it => raster-block(vor: 1, nach: 1, it)
 
   body
 }

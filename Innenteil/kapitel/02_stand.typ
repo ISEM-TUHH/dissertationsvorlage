@@ -4,12 +4,18 @@
 
 == Modellbasierte Systementwicklung
 
+#lorem(75)
+
 Platzhaltertext mit einem Verweis auf @abb-beispiel. Verweise sind dynamisch:
 Wird die Abbildung verschoben oder kommt eine dazu, ändert sich die Nummer
 im Text von selbst mit. Dasselbe gilt für Verweise auf @kap-einleitung,
 @tab-beispiel und @gl-beispiel.
 
-Fachbegriffe lassen sich in einem Kasten hervorheben:
+#lorem(55)
+
+Fachbegriffe lassen sich in einem Kasten hervorheben. Der Kasten zählt sich
+selbst und erscheint zugleich im Glossar am Ende des Bandes — die Nummer
+schreibst du nicht, sie entsteht:
 
 #definitionsbox[Sicht][
     Eine Sicht ist eine zweckgebundene Auswahl aus einem Modell, die für eine
@@ -25,9 +31,16 @@ Die Abbildung wird #emph[unterhalb] beschriftet:
 ) <abb-beispiel>
 
 Eine Quelle wird über ihren Schlüssel zitiert @beispiel2024. Der
-Zitierstil des ISEM setzt daraus selbst eine Fußnote.
+Zitierstil des ISEM setzt daraus selbst eine Fußnote. Steht das Zitat
+innerhalb einer eigenen Fußnote, nimmt man `#quelle(<schlüssel>)` — sonst
+entstünde eine Fußnote in der Fußnote.#footnote[So sieht das aus:
+#quelle(<beispiel2024>) und #quelle(<beispiel2023>).]
+
+#lorem(60)
 
 == Sichten und Sichtenbildung
+
+#lorem(80)
 
 Eine nummerierte Gleichung wird kapitelweise gezählt:
 
@@ -53,6 +66,10 @@ Tabellen werden dagegen #emph[oberhalb] beschriftet:
   caption: [Platzhalter für eine Tabelle.],
 ) <tab-beispiel>
 
+#lorem(65)
+
 Platzhaltertext mit mehreren Literaturverweisen @beispiel2024 @beispiel2023.
+
+#lorem(70)
 
 ]
