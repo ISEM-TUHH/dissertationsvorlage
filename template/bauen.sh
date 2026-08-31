@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Baut alles: Umschlag, Innenteil und die Online-Gesamtdatei (macOS/Linux).
-# Aufgerufen wird ueber ../bauen.sh im Wurzelordner.
+# Aufruf aus dem Wurzelordner:
+#     ./template/bauen.sh
 #
 # Ergebnisse: siehe bauen.ps1 - beide Skripte tun dasselbe.
 

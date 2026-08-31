@@ -15,7 +15,7 @@ Aus einer Quelle entstehen drei Dateien:
 |---|---|
 | ![Zwei Seiten aus dem Satz](docs/vorschau-satz.png) | ![Titelseite des Umschlags](docs/vorschau-umschlag.png) |
 
-Beides stammt aus dem Demoband, den `.\bauen.ps1` erzeugt. Er liegt auch
+Beides stammt aus dem Demoband, den `.\template\bauen.ps1` erzeugt. Er liegt auch
 fertig bei den [Releases](../../releases) — ein Klick statt einer
 Installation.
 
@@ -48,7 +48,7 @@ git fetch vorlage
 git merge vorlage/main
 ```
 
-Beim nächsten `.\bauen.ps1` ist deine Arbeit im neuen Satz.
+Beim nächsten `.\template\bauen.ps1` ist deine Arbeit im neuen Satz.
 
 ---
 
@@ -57,7 +57,7 @@ Beim nächsten `.\bauen.ps1` ist deine Arbeit im neuen Satz.
 ```powershell
 git clone https://github.com/ISEM-TUHH/dissertationsvorlage.git
 cd dissertationsvorlage
-.\bauen.ps1          # unter macOS/Linux: ./bauen.sh
+.\template\bauen.ps1          # unter macOS/Linux: ./template/bauen.sh
 ```
 
 Danach liegt alles in `build/`. Wenn etwas fehlt, sagt dir das Skript, was.
@@ -146,7 +146,7 @@ wie.
 
 ## Prüfskripte
 
-Nach jedem `.\bauen.ps1` laufen die Prüfungen automatisch mit. Einzeln
+Nach jedem `.\template\bauen.ps1` laufen die Prüfungen automatisch mit. Einzeln
 aufrufen lassen sie sich auch — Arbeitsverzeichnis ist `inhalt/`:
 
 ```powershell
@@ -209,9 +209,8 @@ template/        ← die Vorlage. Wird per git merge aktualisiert.
   ISEM-Zitationsstil.csl   Zitierstil des Instituts
   ISOcoated_v2_300_eci.icc Ausgabebedingung für den Druck
   requirements.txt Python-Pakete der Skripte
+  bauen.ps1  bauen.sh  baut alles und prüft alles (Windows / macOS+Linux)
 docs/            Anleitung, Hintergründe, Vorschaubilder
-bauen.ps1        baut alles und prüft alles (Windows)
-bauen.sh         dasselbe für macOS und Linux
 build/           die fertigen Dateien
 ```
 

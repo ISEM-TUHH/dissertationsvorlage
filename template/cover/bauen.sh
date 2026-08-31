@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Erzeugt alle Umschlag-PDF und prueft sie (macOS/Linux).
-# Aufruf direkt oder ueber ../bauen.sh im Wurzelordner.
+# Aufruf direkt oder ueber ../bauen.sh (den Gesamtbau).
 #
 # Die Buchdaten liest der Umschlag aus inhalt/buchdaten.typ - gebaut wird
 # darum mit --root auf dem Wurzelordner.

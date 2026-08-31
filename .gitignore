@@ -1,5 +1,5 @@
 # Ergebnisse entstehen beim Bauen und gehören nicht in die Versionsverwaltung.
-# `.\bauen.ps1` (bzw. `./bauen.sh`) erzeugt sie in wenigen Sekunden neu.
+# `.\template\bauen.ps1` (bzw. `./template/bauen.sh`) erzeugt sie in wenigen Sekunden neu.
 build/
 inhalt/build/
 template/cover/build/

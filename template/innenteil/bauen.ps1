@@ -1,5 +1,5 @@
 # Erzeugt Online-, Archiv- und Druckfassung des Innenteils und prueft alle.
-# Aufruf direkt oder ueber ..\bauen.ps1 im Wurzelordner.
+# Aufruf direkt oder ueber ..\bauen.ps1 (den Gesamtbau).
 #
 # Gearbeitet wird im Ordner inhalt\ - dort liegen main.typ, die Kapitel und
 # die Angaben. Gebaut wird mit --root auf dem Wurzelordner, damit main.typ

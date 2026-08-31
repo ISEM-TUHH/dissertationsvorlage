@@ -2,8 +2,8 @@
 //  Hauptdatei des Innenteils - hier stehen NUR deine Kapitel und Anhaenge.
 //
 //  Alle Angaben zur Arbeit stehen in angaben.typ, der Satz selbst liegt in
-//  ../template/ und wird hier nur aufgerufen. Gebaut wird mit ..\bauen.ps1
-//  (oder ../bauen.sh) - siehe ../docs/ANLEITUNG.md.
+//  ../template/ und wird hier nur aufgerufen. Gebaut wird mit ..\template\bauen.ps1
+//  (oder ../template/bauen.sh) - siehe ../docs/ANLEITUNG.md.
 //
 //  Ein neues Kapitel: Datei in kapitel/ anlegen und unten eine Zeile in die
 //  Liste eintragen. Die Reihenfolge hier ist die Reihenfolge im Buch.

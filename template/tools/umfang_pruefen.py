@@ -32,7 +32,7 @@ def melde(ok, text, hinweis=""):
 
 
 if not os.path.exists(INNEN):
-    sys.exit("fehlt: %s - zuerst .\\bauen.ps1 (bzw. ./bauen.sh) ausführen." % INNEN)
+    sys.exit("fehlt: %s - zuerst .\\template\\bauen.ps1 (bzw. ./template/bauen.sh) ausführen." % INNEN)
 
 ist = fitz.open(INNEN).page_count
 quelle = open(BUCHDATEN, encoding="utf-8").read()

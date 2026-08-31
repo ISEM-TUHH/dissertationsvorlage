@@ -31,7 +31,7 @@ ZIEL = "build/Onlineversion/dissertation.pdf"
 def main():
     for pfad in (COVER, INNEN):
         if not os.path.exists(pfad):
-            sys.exit("fehlt: %s - zuerst .\\bauen.ps1 im jeweiligen Ordner ausführen." % pfad)
+            sys.exit("fehlt: %s - zuerst .\\template\\bauen.ps1 ausführen." % pfad)
 
     cover = fitz.open(COVER)
     innen = fitz.open(INNEN)

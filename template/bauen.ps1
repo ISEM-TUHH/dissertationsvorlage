@@ -1,5 +1,6 @@
 # Baut alles: Umschlag, Innenteil und die Online-Gesamtdatei.
-# Aufgerufen wird ueber ..\bauen.ps1 im Wurzelordner.
+# Aufruf aus dem Wurzelordner:
+#     .\template\bauen.ps1
 #
 # Ergebnisse
 #   build\Druckversion\umschlag.pdf       Druckdatei Umschlag (CMYK, Beschnitt)

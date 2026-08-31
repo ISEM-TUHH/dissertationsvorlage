@@ -1,5 +1,5 @@
 # Erzeugt alle Umschlag-PDF und prueft sie.
-# Aufruf direkt oder ueber ..\bauen.ps1 im Wurzelordner.
+# Aufruf direkt oder ueber ..\bauen.ps1 (den Gesamtbau).
 #
 # Die Buchdaten liest der Umschlag aus inhalt\buchdaten.typ - gebaut wird
 # darum mit --root auf dem Wurzelordner.

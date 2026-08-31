@@ -139,7 +139,7 @@ Alles bauen:
 
 ```powershell
 cd "C:\Arbeitsordner\ISEM Dissertationsvorlage Typst"
-.\bauen.ps1          # unter macOS/Linux: ./bauen.sh
+.\template\bauen.ps1          # unter macOS/Linux: ./template/bauen.sh
 ```
 
 Das dauert ein paar Sekunden und erzeugt alle PDF. Am Ende siehst du
@@ -254,7 +254,7 @@ erfahrungsgemäß etwas schiefgeht:
 | `art` | „Monografie" oder „kumulativ" — die Angabe gehört auf das Deckblatt und ist nicht weglassbar. |
 | `geburtsort` | Bei Geburt außerhalb Deutschlands **mit Land**: „Baltimore, USA". |
 | `jahr` | In der genehmigten Fassung das Jahr der **Veröffentlichung**. Nicht das Jahr der mündlichen Prüfung — ein klassischer Fehler. |
-| `seiten` (in `buchdaten.typ`) | Muss der tatsächlichen Seitenzahl des Innenteils entsprechen, sonst stimmt die Rückenstärke nicht. `.\bauen.ps1` prüft das und sagt dir die richtige Zahl. |
+| `seiten` (in `buchdaten.typ`) | Muss der tatsächlichen Seitenzahl des Innenteils entsprechen, sonst stimmt die Rückenstärke nicht. `.\template\bauen.ps1` prüft das und sagt dir die richtige Zahl. |
 
 ---
 
@@ -492,7 +492,7 @@ Der bequeme Weg ist ein Add-on, das die `.bib`-Datei automatisch aktuell hält:
 
 ## 7. Was die Prüfskripte machen
 
-`.\bauen.ps1` baut nicht nur, sondern prüft auch. Drei Berichte:
+`.\template\bauen.ps1` baut nicht nur, sondern prüft auch. Drei Berichte:
 
 | Skript | prüft |
 |---|---|
@@ -611,7 +611,7 @@ Vorher prüfen:
 | PDF sieht nach der falschen Schrift aus | Cambria fehlt, Typst nimmt still einen Ersatz | `typst fonts \| Select-String Cambria` |
 | `error: unknown variable: definitionsbox` | Kapiteldatei ohne Import-Zeile | erste Zeile `#import "/template/innenteil/isem.typ": *` |
 | Literaturverweis erscheint als `@bursac2023` | Schlüssel steht nicht in `literatur.bib` | Zotero-Export prüfen |
-| Umschlag passt nicht ums Buch | `seiten` veraltet | `.\bauen.ps1`, Umfangsbericht lesen |
+| Umschlag passt nicht ums Buch | `seiten` veraltet | `.\template\bauen.ps1`, Umfangsbericht lesen |
 | Änderung wirkt nicht | `typst watch` läuft noch mit alter Datei | Strg+C, neu starten |
 | `file access denied` oder Vorlage nicht gefunden | `typst` ohne `--root ..` gestartet | `typst watch --root .. main.typ …` aus `inhalt/` |
 | Abbildung wird nicht gefunden | Datei liegt nicht in `inhalt/abbildungen/` | `abbildung("bild.png", alt: "…")` sucht dort; anderer Ort: `"/inhalt/…/bild.png"` |
@@ -649,7 +649,7 @@ inhalt/                       ← DEINE Arbeit. Nur hier schreibst du.
   anhang/  titelei/  abbildungen/
 
 template/                     ← die Vorlage. Wird per git merge aktualisiert.
-  bauen.ps1  bauen.sh         die eigentliche Baulogik
+  bauen.ps1  bauen.sh         baut alles und prüft alles (Windows / macOS+Linux)
   ISEM-Zitationsstil.csl      Zitierstil des Instituts
   ISOcoated_v2_300_eci.icc    Ausgabebedingung für den Druck
   buecher_mit_hardcover_...pdf  Datenblatt der Druckerei
