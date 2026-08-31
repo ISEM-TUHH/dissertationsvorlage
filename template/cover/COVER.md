@@ -37,7 +37,7 @@ typst compile --input hilfslinien=ja umschlag.typ build/umschlag-kontrolle.pdf
 typst compile --root ../.. --input farbraum=rgb bildschirm.typ build/cover-bildschirm.pdf
 
 python tools/pruefen.py      # Maße, Farbraum, Schrifteinbettung
-python tools/vergleich.py    # Differenzbild gegen den Originalentwurf
+python tools/vergleich.py    # Differenzbild gegen den Originalentwurf (nur Vorlagenentwicklung; mit eigenem inhalt/ wird uebersprungen)
 ```
 
 Die Kontrollansicht ist **nicht** die Druckdatei — die Hilfslinien dürfen

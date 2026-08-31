@@ -1,10 +1,17 @@
 # -*- coding: utf-8 -*-
-"""Legt die nachgebaute Titelseite ueber den Originalentwurf.
+"""Design-Treuecheck: legt die nachgebaute Titelseite ueber den
+Originalentwurf des Reihen-Designs.
 
     python tools/vergleich.py
 
-Erzeugt ../build/Kontrolle/umschlag-vergleich.png: Original in Rot, Nachbau in Gruen, Deckung in
-Grau. Meldet den Anteil abweichender Pixel.
+Erzeugt ../build/Kontrolle/umschlag-vergleich.png: Original in Rot, Nachbau
+in Gruen, Deckung in Grau. Meldet den Anteil abweichender Pixel.
+
+Der Check prueft das DESIGN der Vorlage, nicht den Umschlag eines Bandes:
+Als Nachbau werden fest die Angaben des Originalentwurfs gesetzt und mit
+dessen PDF verglichen. Er ist deshalb nur fuer die Vorlagenentwicklung
+relevant und wird uebersprungen, sobald ein eigener Band in inhalt/ liegt -
+sonst laege in jedem Fork ein Kontrollbild mit dem fremden Entwurfscover.
 """
 import os
 import subprocess
@@ -14,6 +21,12 @@ import fitz
 HIER = os.path.dirname(os.path.abspath(__file__))
 BASIS = os.path.dirname(HIER)
 os.chdir(BASIS)
+
+if os.path.isdir("../../inhalt"):
+    print("Designvergleich uebersprungen: er prueft das Reihen-Design gegen")
+    print("den Originalentwurf und ist nur fuer die Vorlagenentwicklung")
+    print("relevant, nicht fuer den Umschlag deines Bandes.")
+    sys.exit(0)
 
 DPI = 150
 ORIGINAL = "assets/entwurf-original.pdf"
