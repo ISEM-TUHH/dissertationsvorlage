@@ -30,8 +30,8 @@
   Forschungsberichte des ISEM — Dissertationen und Schutzrechte
   #h(1fr) Stand: 31.08.2026 · Seite #counter(page).display()
 ])
-#set text(font: "Cambria", size: 10.5pt, lang: "de", region: "DE")
-#set par(justify: true, leading: 0.7em, spacing: 1em)
+#set text(font: "Cambria", size: 10pt, lang: "de", region: "DE")
+#set par(justify: true, leading: 0.65em, spacing: 0.9em)
 #show heading: set text(fill: petrol)
 #show heading.where(level: 2): set block(above: 1.6em, below: 0.9em)
 
@@ -52,7 +52,7 @@
 #align(center, box(stroke: 0.8pt + black, inset: 3.5mm, width: 100%)[
   #set align(center)
   *INFORMATION FÜR PROMOVIERENDE UND BETREUENDE* \
-  *Dissertationen und Schutzrechte in der Reihe „Forschungsberichte des ISEM"*
+  *Dissertationen und Schutzrechte in der Reihe „Forschungsberichte des ISEM“*
 ])
 
 == 1. Urheberrecht an Dissertationen
@@ -94,13 +94,14 @@ technischen Neuerung sind getrennt zu beurteilen.
 
 Mit der Annahme der Dissertation entsteht die *Pflicht zur
 Veröffentlichung* (§ 16 der Promotionsordnung der TUHH). Die Reihe
-„Forschungsberichte des ISEM" ist ein Weg, diese Pflicht zu erfüllen: Der
+„Forschungsberichte des ISEM“ ist ein Weg, diese Pflicht zu erfüllen: Der
 Band erscheint gedruckt und elektronisch (TORE, Ablieferung an die
 Deutsche Nationalbibliothek).
 
 Damit das Institut den Band herstellen, verbreiten und dauerhaft
-zugänglich halten darf, braucht es *Nutzungsrechte* (§ 31 UrhG) — nicht
-das Urheberrecht. Die Einräumung erfolgt unentgeltlich mit der
+zugänglich halten darf — und Inhalte daraus in Forschung, Lehre, Transfer
+und Wissenschaftskommunikation weiterverwenden kann —, braucht es
+*Nutzungsrechte* (§ 31 UrhG), nicht das Urheberrecht. Die Einräumung erfolgt unentgeltlich mit der
 umseitigen Erklärung; das Urheberrecht und alle nicht ausdrücklich
 eingeräumten Rechte verbleiben bei der Verfasserin oder dem Verfasser.
 Es besteht *keine Verpflichtung* zur Rechtseinräumung über das hinaus,
@@ -115,7 +116,7 @@ Rechtseinräumung an das Institut nicht, sondern ergänzt sie.
 #v(1fr)
 #text(size: 9pt, fill: luma(30%))[
   Dieses Blatt ist eine Arbeitshilfe des ISEM nach dem Vorbild des
-  TUHH-Informationsblatts „Abschlussarbeiten und Schutzrechte" (ZPA) und
+  TUHH-Informationsblatts „Abschlussarbeiten und Schutzrechte“ (ZPA) und
   ersetzt keine Rechtsberatung. Verbindliche Auskünfte erteilt das
   Justiziariat der TUHH. Die unterschriebene Erklärung wird im Institut
   aufbewahrt.
@@ -160,8 +161,12 @@ ausschließliche Nutzungsrecht* ein, meine Dissertation
   Ablieferung an die Deutsche Nationalbibliothek),
 + in den Metadaten der Reihe (Titel, Kurzfassung, Umschlagabbildung) zu
   nutzen sowie
-+ auszugsweise für Zwecke der Forschung und Lehre des Instituts
-  wiederzugeben.
++ ganz oder in Teilen für Zwecke der *Forschung, Lehre, des Transfers und
+  der Wissenschaftskommunikation des ISEM* zu vervielfältigen, zu
+  bearbeiten und öffentlich wiederzugeben — etwa in Lehrveranstaltungen
+  und Lehrmaterialien, in Folgeforschung des Instituts, auf Webseite und
+  Social-Media-Kanälen, in Vorträgen, auf Messen sowie in der
+  Pressearbeit des Instituts.
 
 Das Urheberrecht und alle hier nicht ausdrücklich eingeräumten Rechte
 verbleiben bei mir. Die Pflichten aus der Promotionsordnung der TUHH
