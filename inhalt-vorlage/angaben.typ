@@ -167,8 +167,14 @@
     (115 g/m² Bilderdruck matt).
   ],
 
+  // Der Urheber ist und bleibt der Verfasser - das Urheberrecht ist nach
+  // § 29 UrhG nicht übertragbar, ein "© ISEM" wäre falsch. Das Institut
+  // erhält für Druck, Vertrieb und Online-Stellung ein Nutzungsrecht
+  // (§ 31 UrhG) über die Veröffentlichungsvereinbarung der Reihe
+  // (docs/NUTZUNGSRECHTE - siehe ANLEITUNG). Wer Open Access will, ersetzt
+  // die ©-Zeile z. B. durch: Dieses Werk ist lizenziert unter CC BY 4.0.
   rechte: [
-    © Der/die Verfasser*in. Alle Rechte vorbehalten.
+    © 2026 Max Mustermann. Alle Rechte vorbehalten.
 
     Die Deutsche Nationalbibliothek verzeichnet diese Publikation in der
     Deutschen Nationalbibliografie; detaillierte bibliografische Daten sind

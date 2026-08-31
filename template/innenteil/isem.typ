@@ -287,13 +287,19 @@
 }
 
 /// Kopfzeile des Hauptteils.
+///
+/// Im Druck gespiegelt wie im Buch:
 ///   linke Seite:   Seitenzahl auszen, Kapitelnummer und -titel innen
 ///   rechte Seite:  Abschnittsnummer und -titel innen, Seitenzahl auszen
+///
+/// Am Bildschirm wird gescrollt, nicht geblaettert - dort steht auf jeder
+/// Seite dasselbe: links das Kapitel (oberste Ebene), rechts die Seitenzahl.
 #let laufender-kopf() = context {
   if oeffnet-kapitel() { return [] }
   if page.numbering == none { return [] }
 
-  let odd = page-is-odd()
+  // Online verhaelt sich jede Seite wie eine rechte Seite.
+  let odd = if ist-druck { page-is-odd() } else { true }
   if oeffnet-abschnitt() {
     let zahl = counter(page).display()
     return block(width: 100%, {
@@ -305,8 +311,9 @@
       kopf-linie()
     })
   }
-  // Links steht das Kapitel, rechts der zuletzt begonnene Abschnitt.
-  let ebenen = if odd {
+  // Druck: links das Kapitel, rechts der zuletzt begonnene Abschnitt.
+  // Online: immer das Kapitel.
+  let ebenen = if ist-druck and odd {
     heading.where(level: 1).or(heading.where(level: 2))
   } else {
     heading.where(level: 1)
@@ -337,15 +344,17 @@
   })
 }
 
-/// Kopfzeile der Titelei und der Verzeichnisse: nur die Seitenzahl, auszen.
+/// Kopfzeile der Titelei und der Verzeichnisse: nur die Seitenzahl -
+/// im Druck auszen, am Bildschirm immer rechts.
 #let titelei-kopf() = context {
   if page.numbering == none { return [] }
   let zahl = counter(page).display()
+  let rechts = if ist-druck { page-is-odd() } else { true }
   block(width: 100%, {
     set text(size: 8pt)
     set block(spacing: 0pt)
     set par(spacing: 0pt)
-    if page-is-odd() { align(right, zahl) } else { align(left, zahl) }
+    if rechts { align(right, zahl) } else { align(left, zahl) }
     v(0.42mm, weak: false)
     kopf-linie()
   })
@@ -602,12 +611,19 @@
 
 // ═══ Bausteine ═════════════════════════════════════════════════════════════
 
+/// Seitenwechsel vor einem neuen Teil. Im Druck beginnen Kapitel und Teile
+/// auf einer rechten Seite - davor entsteht, wenn noetig, eine Vakatseite.
+/// Am Bildschirm wird gescrollt, nicht geblaettert: Online- und
+/// Archivfassung kommen deshalb ohne Leerseiten aus, auch wenn ihre
+/// Seitenzahl dadurch von der Druckfassung abweicht.
+#let neue-seite() = pagebreak(weak: true, to: if ist-druck { "odd" } else { none })
+
 /// Ueberschrift eines Vorspann- oder Nachspannteils: 12 pt fett, direkt am
 /// Kopfsteg. `verzeichnet: true` nimmt den Teil ins Inhaltsverzeichnis auf -
 /// so wie es die Referenz fuer Anhang, Literatur- und Verzeichnisteile tut,
 /// nicht aber fuer Kurzfassung, Abstract, Vorwort und Danksagung.
 #let front-heading(title, verzeichnet: false) = [
-  #pagebreak(weak: true, to: "odd")
+  #neue-seite()
   #metadata("abschnittsanfang")<isem-abschnittsanfang>
   #heading(level: 1, outlined: verzeichnet, numbering: none, bookmarked: true)[#title]
 ]
@@ -617,9 +633,9 @@
 ///
 ///     #kapitel("Einleitung", "1", kennung: "kap-einleitung")[..]
 #let kapitel(title, number: none, body, kennung: none) = [
-  // Jedes Kapitel beginnt auf einer rechten Seite. `weak` verhindert einen
-  // zweiten Umbruch, wenn die Seite ohnehin frisch ist.
-  #pagebreak(weak: true, to: "odd")
+  // Jedes Kapitel beginnt im Druck auf einer rechten Seite. `weak`
+  // verhindert einen zweiten Umbruch, wenn die Seite ohnehin frisch ist.
+  #neue-seite()
   #metadata("kapitelanfang")<isem-kapitelanfang>
   #counter(math.equation).update(0)
   #counter(figure.where(kind: image)).update(0)
@@ -776,7 +792,7 @@
 /// Anhangteil: wie eine Vorspann-Ueberschrift gesetzt (12 pt fett), aber
 /// nummeriert und im Inhaltsverzeichnis gefuehrt - so zeigt es die Referenz.
 #let anhang-teil(title, number: none, body, kennung: none) = [
-  #pagebreak(weak: true, to: "odd")
+  #neue-seite()
   #metadata("abschnittsanfang")<isem-abschnittsanfang>
   #counter(math.equation).update(0)
   #counter(figure.where(kind: image)).update(0)

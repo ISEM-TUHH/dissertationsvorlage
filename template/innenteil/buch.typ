@@ -140,7 +140,7 @@
   set page(header: laufender-kopf(), numbering: "1")
   // Erst umbrechen, dann die arabische Zaehlung starten: so traegt die erste
   // Kapitelseite wirklich die 1 und nicht eine vorangehende Vakatseite.
-  pagebreak(to: "odd")
+  neue-seite()
   counter(page).update(1)
 
   for k in kapitel {

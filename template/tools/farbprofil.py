@@ -43,6 +43,17 @@ def profilpfad(start=None):
     return None
 
 
+def lesezeichen_anzeigen(pfad):
+    """Oeffnet der Reader die Datei, zeigt er die Lesezeichen an
+    (/PageMode /UseOutlines)."""
+    d = fitz.open(pfad)
+    try:
+        d.set_pagemode("UseOutlines")
+        d.saveIncr()
+    finally:
+        d.close()
+
+
 def hat_outputintent(pfad):
     d = fitz.open(pfad)
     try:

@@ -21,6 +21,8 @@ import shutil
 import subprocess
 import sys
 
+import fitz
+
 GS_KANDIDATEN = [
     "gswin64c", "gswin32c", "gs",
     r"C:\Program Files\gs\gs10.07.1\bin\gswin64c.exe",
@@ -47,6 +49,18 @@ def main():
               % (vorher / 1048576))
         return
 
+    # Ghostscript wirft die Seitenlabels (römisch/arabisch) weg - vorher
+    # sichern, hinterher zurückschreiben. Die Labels müssen 1:1 dem
+    # Aufdruck entsprechen.
+    d = fitz.open(pfad)
+    labels = d.get_page_labels()
+    d.close()
+    # PyMuPDF liest aus Typst-Dateien faelschlich "/Type /PageLabel" als
+    # Praefix "ageLabel" - das ist keines.
+    for l in labels:
+        if l.get("prefix") == "ageLabel":
+            l["prefix"] = ""
+
     ziel = pfad + ".tmp"
     subprocess.check_call([
         gs, "-dBATCH", "-dNOPAUSE", "-dQUIET", "-sDEVICE=pdfwrite",
@@ -70,6 +84,14 @@ def main():
         os.remove(ziel)
         print("keine Verkleinerung möglich, Datei bleibt bei %.1f MB"
               % (vorher / 1048576))
+
+    # Seitenlabels zurückschreiben und die Lesezeichen beim Öffnen anzeigen.
+    d = fitz.open(pfad)
+    if labels:
+        d.set_page_labels(labels)
+    d.set_pagemode("UseOutlines")
+    d.save(pfad, incremental=True, encryption=fitz.PDF_ENCRYPT_KEEP)
+    d.close()
 
 
 main()

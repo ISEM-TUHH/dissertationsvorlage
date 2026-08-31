@@ -24,16 +24,43 @@
 #let falzkante = 7mm
 
 // --- Bundstaerke aus der Seitenzahl --------------------------------------
-// Deckenband = Buchblock + zweimal Graupappe.
-//   Graupappe   2,2 mm je Deckel (Angabe der Druckerei)
-//   Blattdicke  0,104 mm fuer 115 g/m^2 Bilderdruck matt
-// Die Blattdicke ist aus der Herstellerangabe rueckgerechnet: 204 Seiten
-// ergeben 15 mm, also (15 - 2 * 2,2) / (204 / 2) = 0,104 mm.
+// Buchrueckenstaerke laut dem Produktkonfigurator von WirMachenDruck fuer
+// FADENHEFTUNG bei Inhalt 115 g/m^2 Bilderdruck matt (die Bindung und das
+// Papier der Reihe), je Seitenzahl abgefragt am 2026-08-31 unter "mehr
+// Produktdetails". Zwischen den Stuetzstellen wird linear interpoliert,
+// darueber hinaus mit der Steigung der letzten Strecke fortgeschrieben.
+//
+// Die aeltere Naeherungsformel (Blattdicke 0,104 mm + 2 x 2,2 mm Graupappe)
+// wich bei dicken Baenden um mehr als 1 mm ab; blattdicke/pappe bleiben nur
+// als Parameter fuer Sonderfaelle erhalten (werden von der Tabelle nicht
+// mehr benutzt, sobald sie unveraendert sind).
 #let pappe-default = 2.2mm
 #let blatt-default = 0.104mm
 
+#let wmd-ruecken-fadenheftung = (
+  (52, 7mm), (76, 8mm), (100, 10mm), (148, 12mm), (204, 15mm),
+  (252, 17mm), (300, 20mm), (356, 22mm), (400, 25mm), (500, 29mm),
+)
+
 #let bundstaerke(seiten, blattdicke: blatt-default, pappe: pappe-default) = {
-  seiten / 2 * blattdicke + 2 * pappe
+  // Weicht der Aufrufer von den Standardwerten ab, gilt seine Formel.
+  if blattdicke != blatt-default or pappe != pappe-default {
+    return seiten / 2 * blattdicke + 2 * pappe
+  }
+  let t = wmd-ruecken-fadenheftung
+  if seiten <= t.first().at(0) { return t.first().at(1) }
+  let letzte = t.first()
+  for punkt in t.slice(1) {
+    if seiten <= punkt.at(0) {
+      let anteil = (seiten - letzte.at(0)) / (punkt.at(0) - letzte.at(0))
+      return letzte.at(1) + anteil * (punkt.at(1) - letzte.at(1))
+    }
+    letzte = punkt
+  }
+  // jenseits der Tabelle: mit der letzten Steigung fortschreiben
+  let vorletzte = t.at(t.len() - 2)
+  let steigung = (letzte.at(1) - vorletzte.at(1)) / (letzte.at(0) - vorletzte.at(0))
+  letzte.at(1) + (seiten - letzte.at(0)) * steigung
 }
 
 // --- Umschlag ------------------------------------------------------------
@@ -101,9 +128,10 @@
       text-oben: u4-text, isbn: isbn, flaeche: false))
 
   // 4) Buchruecken - von oben nach unten lesbar (deutsche Leserichtung).
-  //    Die Farbgrenze folgt der Schraege: Titel schwarz im weissen Feld
-  //    darueber, Verfassername weiss im Petrolfeld darunter.
-  let rt = if ruecken-titel != none { ruecken-titel } else { titel }
+  //    Die Farbgrenze folgt der Schraege: ISEM-Logo im weissen Feld
+  //    darueber, Verfasser und Bandnummer weiss im Petrolfeld darunter.
+  //    Ein Titel steht nicht auf dem Ruecken; `ruecken-titel` bleibt nur
+  //    aus Kompatibilitaet als Parameter erhalten.
   let ra = if ruecken-autor != none { ruecken-autor } else { autor }
   let ruecken-kante = schraege(bund-x + B / 2)
 
@@ -116,15 +144,20 @@
         box(width: y1 - y0,
           align(if ausrichtung == top { left } else { right }, inhalt))))))
 
-  // Kopf: Titel, beginnt auf der Oberkante des TUHH-Logos von U1
-  if rt != "" {
-    ruecken-feld(oben + ry(A.tuhh.y), ruecken-kante - 4mm, top,
-      text(size: ruecken-groesse, fill: schwarz, rt))
-  }
-  // Fuss: Verfassername, endet auf der Grundlinie der Bandangabe von U1
+  // Kopf: nur das ISEM-Logo - beginnt auf der Oberkante des TUHH-Logos
+  // von U1, laeuft mit der Leserichtung des Rueckens mit und skaliert mit
+  // der Rueckenbreite.
+  ruecken-feld(oben + ry(A.tuhh.y), ruecken-kante - 4mm, top,
+    box(baseline: 22%, isem-logo(height: calc.min(B - 2.5mm, 4.2mm))))
+  // Fuss: Verfassername (fett) unter der Farbkante, die Bandnummer (fett)
+  // endet auf der Grundlinie der Bandangabe von U1.
   if ra != "" {
     ruecken-feld(ruecken-kante + 4mm, oben + ry(A.band.y), bottom,
-      text(size: ruecken-groesse, fill: weiss, ra))
+      text(size: ruecken-groesse, fill: weiss, weight: "bold", {
+        ra
+        h(1fr)
+        band
+      }))
   }
 
   // 5) Hilfslinien - nur zur Kontrolle, niemals in der Druckdatei

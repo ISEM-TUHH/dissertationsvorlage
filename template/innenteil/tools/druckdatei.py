@@ -31,7 +31,8 @@ BASIS = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(
     os.path.dirname(os.path.abspath(__file__)))), "tools"))
-from farbprofil import ausgabebedingung_eintragen, profilpfad  # noqa: E402
+from farbprofil import (ausgabebedingung_eintragen, lesezeichen_anzeigen,  # noqa: E402
+                        profilpfad)
 
 MM = 72.0 / 25.4
 ENDFORMAT = (148 * MM, 210 * MM)
@@ -180,6 +181,7 @@ def main():
     buchblock_schlieszen(ziel)
     beschnitt_anlegen(ziel)
     ausgabebedingung_eintragen(ziel)
+    lesezeichen_anzeigen(ziel)
     print("  geschrieben: %s" % ziel)
 
 

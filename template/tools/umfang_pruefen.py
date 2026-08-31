@@ -54,11 +54,26 @@ melde(ist % 4 == 0,
       "auf; die nächste passende Zahl ist %d. Leerseiten am Ende ergänzen "
       "oder die Druckerei fragen." % (ist, ist + (4 - ist % 4)))
 
-# Rückenstärke zur Information
-blatt = float(re.search(r"blattdicke:\s*([\d.]+)mm", quelle).group(1))
-pappe = float(re.search(r"pappe:\s*([\d.]+)mm", quelle).group(1))
-print("\n  Rückenstärke bei %d Seiten: %.2f mm" % (ist, ist / 2 * blatt + 2 * pappe))
-print("  (%.3f mm je Blatt, %.1f mm Graupappe je Deckel)" % (blatt, pappe))
+# Rückenstärke zur Information. Die Stützstellen stammen aus dem
+# WirMachenDruck-Konfigurator (Fadenheftung, 115 g/m² Bilderdruck matt,
+# Stand 2026-08-31) und müssen zu template/cover/src/cover.typ passen.
+WMD_RUECKEN = [(52, 7.0), (76, 8.0), (100, 10.0), (148, 12.0), (204, 15.0),
+               (252, 17.0), (300, 20.0), (356, 22.0), (400, 25.0), (500, 29.0)]
+
+
+def bundstaerke(seiten):
+    t = WMD_RUECKEN
+    if seiten <= t[0][0]:
+        return t[0][1]
+    for (n0, b0), (n1, b1) in zip(t, t[1:]):
+        if seiten <= n1:
+            return b0 + (seiten - n0) / (n1 - n0) * (b1 - b0)
+    (n0, b0), (n1, b1) = t[-2], t[-1]
+    return b1 + (seiten - n1) * (b1 - b0) / (n1 - n0)
+
+
+print("\n  Rückenstärke bei %d Seiten: %.2f mm" % (ist, bundstaerke(ist)))
+print("  (Fadenheftung, 115 g/m² Bilderdruck matt - Konfigurator-Tabelle)")
 print("  Die Druckerei nennt 10 % Fertigungstoleranz auf den Rücken.")
 
 print("\nErgebnis:", "Umfang passt" if fehler == 0 else "%d Abweichung(en)" % fehler)

@@ -18,8 +18,8 @@
   herausgeber: "Prof. Dr.-Ing. Nikola Bursac (Hrsg.)",
 
   // --- Buchrücken -------------------------------------------------------
-  // Der Rücken ist schmal - hier gehört eine gekürzte Titelfassung hin.
-  // none = der volle Titel wird verwendet.
+  // Der Rücken trägt ISEM-Logo, Verfassername und Bandnummer - keinen
+  // Titel. ruecken-titel bleibt nur aus Kompatibilität stehen.
   ruecken-titel: "Modellbasierte Entwicklung smarter Maschinenelemente",
   // Name am Fuß des Rückens - Vor- und Nachname, ohne Grad.
   ruecken-autor: "Max Mustermann",
@@ -29,12 +29,15 @@
   isbn: none, // z. B. "ISBN 978-3-..."
 
   // --- Feineinstellungen zur Bundstärke ---------------------------------
-  // Nennt die Druckerei eine abweichende Bundstärke, hier direkt eintragen
-  // (z. B. 15mm). none = aus der Seitenzahl berechnen.
+  // none = aus der Seitenzahl über die Konfigurator-Tabelle von
+  // WirMachenDruck berechnen (Fadenheftung, 115 g/m² Bilderdruck matt -
+  // hinterlegt in template/cover/src/cover.typ). Nennt der Konfigurator
+  // für deine Seitenzahl etwas anderes, hier direkt eintragen (z. B. 15mm).
   bund: none,
 
-  // Papier des Buchblocks. Voreinstellung: 115 g/m² Bilderdruck matt,
-  // aus der Herstellerangabe zurückgerechnet (204 Seiten -> 15 mm Rücken).
+  // Nur für Sonderfälle (anderes Papier): weicht einer der beiden Werte
+  // von der Voreinstellung ab, rechnet der Umschlag wieder linear mit
+  // seiten/2 x blattdicke + 2 x pappe statt mit der Tabelle.
   blattdicke: 0.104mm,
   // Graupappe je Buchdeckel laut Produktbeschreibung.
   pappe: 2.2mm,

@@ -11,7 +11,23 @@ import fitz
 HIER = os.path.dirname(os.path.abspath(__file__))
 BASIS = os.path.dirname(HIER)
 
-BLATTDICKE, PAPPE = 0.104, 2.2
+# Rückenstärke laut WirMachenDruck-Konfigurator (Fadenheftung, 115 g/m²
+# Bilderdruck matt, Stand 2026-08-31) - muss zu src/cover.typ passen.
+WMD_RUECKEN = [(52, 7.0), (76, 8.0), (100, 10.0), (148, 12.0), (204, 15.0),
+               (252, 17.0), (300, 20.0), (356, 22.0), (400, 25.0), (500, 29.0)]
+
+
+def bundstaerke(seiten):
+    t = WMD_RUECKEN
+    if seiten <= t[0][0]:
+        return t[0][1]
+    for (n0, b0), (n1, b1) in zip(t, t[1:]):
+        if seiten <= n1:
+            return b0 + (seiten - n0) / (n1 - n0) * (b1 - b0)
+    (n0, b0), (n1, b1) = t[-2], t[-1]
+    return b1 + (seiten - n1) * (b1 - b0) / (n1 - n0)
+
+
 ok_gesamt = True
 
 
@@ -98,7 +114,7 @@ def pruefe_umschlag(pfad, seiten):
     p = d[0]
     mm = lambda v: v / 72 * 25.4
     W, H = mm(p.rect.width), mm(p.rect.height)
-    B = seiten / 2 * BLATTDICKE + 2 * PAPPE
+    B = bundstaerke(seiten)
     print("\n=== %s  (%d Seiten Buchblock) ===" % (pfad, seiten))
     ok = True
     for name, ist, soll in (

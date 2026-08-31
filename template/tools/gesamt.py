@@ -59,7 +59,9 @@ def main():
     #   ab der ersten Kapitelseite   arabisch, beginnt bei 1
     #   letzte Seite                 Umschlag, ohne Nummer
     labels = [{"startpage": 0, "prefix": "U", "style": "D", "firstpagenum": 1}]
-    labels.append({"startpage": 1, "style": "r", "firstpagenum": 1})
+    # Grosz-roemisch wie gedruckt - die PDF-Anzeige muss 1:1 dem Aufdruck
+    # entsprechen.
+    labels.append({"startpage": 1, "style": "R", "firstpagenum": 1})
     if erste_kapitelseite is not None:
         labels.append({"startpage": erste_kapitelseite, "style": "D", "firstpagenum": 1})
     labels.append({"startpage": ziel.page_count - 1, "prefix": "U", "style": "D",
@@ -89,6 +91,7 @@ def main():
     ziel.xref_set_key(katalog, "ViewerPreferences", "<< /DisplayDocTitle true >>")
 
     os.makedirs("build", exist_ok=True)
+    ziel.set_pagemode("UseOutlines")
     ziel.save(ZIEL, garbage=4, deflate=True)
 
     print("geschrieben: %s" % ZIEL)
