@@ -173,8 +173,10 @@
   // (§ 31 UrhG) über die Veröffentlichungsvereinbarung der Reihe
   // (docs/NUTZUNGSRECHTE - siehe ANLEITUNG). Wer Open Access will, ersetzt
   // die ©-Zeile z. B. durch: Dieses Werk ist lizenziert unter CC BY 4.0.
+  // "Alle Rechte vorbehalten" ist rechtlich funktionslos und entfaellt;
+  // bei einer CC-Lizenz waere es sogar irrefuehrend.
   rechte: [
-    © 2026 Max Mustermann. Alle Rechte vorbehalten.
+    © 2026 Max Mustermann
 
     Die Deutsche Nationalbibliothek verzeichnet diese Publikation in der
     Deutschen Nationalbibliografie; detaillierte bibliografische Daten sind
