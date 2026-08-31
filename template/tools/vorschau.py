@@ -51,7 +51,15 @@ umschlag = fitz.open("build/Onlineversion/umschlag.pdf")
 
 print("Vorschaubilder:")
 # Kapitelanfang und Folgeseite: Definitionskasten, Abbildung, Fussnoten.
-rahmen([seite(innen, 20), seite(innen, 21)], "docs/vorschau-satz.png")
+# Der Anfang von Kapitel 2 wird gesucht statt fest angenommen - die
+# Seitenzahl verschiebt sich, wenn sich der Vorspann aendert.
+kapitelseite = next(
+    (p.number for p in innen
+     if p.get_text().strip().startswith("2\n")),
+    20,
+)
+rahmen([seite(innen, kapitelseite), seite(innen, kapitelseite + 1)],
+       "docs/vorschau-satz.png")
 # Umschlag: Titelseite.
 rahmen([seite(umschlag, 0)], "docs/vorschau-umschlag.png")
 
