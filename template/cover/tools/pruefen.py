@@ -140,7 +140,8 @@ def main():
     else:
         os.chdir(BASIS)
         import re
-        quelle = open("../../inhalt/buchdaten.typ", encoding="utf-8").read()
+        _inhalt = "../../inhalt" if os.path.isdir("../../inhalt") else "../../inhalt-vorlage"
+        quelle = open(_inhalt + "/buchdaten.typ", encoding="utf-8").read()
         seiten = int(re.search(r"seiten:\s*(\d+)", quelle).group(1))
         pruefe_umschlag("../../build/Druckversion/umschlag.pdf", seiten)
         pruefe_bildschirm("../../build/Onlineversion/umschlag.pdf")

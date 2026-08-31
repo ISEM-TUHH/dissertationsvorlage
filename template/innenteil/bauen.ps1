@@ -7,7 +7,10 @@
 
 $ErrorActionPreference = "Stop"
 $wurzel = (Resolve-Path "$PSScriptRoot\..\..").Path
-Set-Location "$wurzel\inhalt"
+# Die eigene Arbeit liegt in inhalt\; gibt es sie (noch) nicht, wird das
+# Beispiel aus inhalt-vorlage\ gebaut.
+$inhalt = if (Test-Path "$wurzel\inhalt") { "inhalt" } else { "inhalt-vorlage" }
+Set-Location "$wurzel\$inhalt"
 
 # Zwischendateien bleiben in inhalt\build, die fertigen Dateien wandern in
 # ..\build mit seinen Unterordnern.
@@ -16,16 +19,16 @@ foreach ($o in "build", "..\build\Druckversion", "..\build\Onlineversion", "..\b
 }
 
 Write-Host "Onlinefassung (RGB, 148 x 210 mm, ohne Beschnitt) ..."
-typst compile --root .. main.typ ../build/Onlineversion/innenteil.pdf
+typst compile --root .. --input inhalt=$inhalt main.typ ../build/Onlineversion/innenteil.pdf
 
 Write-Host "Onlinefassung verkleinern ..."
 python ../template/innenteil/tools/verkleinern.py ../build/Onlineversion/innenteil.pdf
 
 Write-Host "Archivfassung (PDF/A-2b + PDF/UA-1, fuer TORE und DNB) ..."
-typst compile --root .. --pdf-standard a-2b,ua-1 main.typ ../build/Archivversion/innenteil.pdf
+typst compile --root .. --input inhalt=$inhalt --pdf-standard a-2b,ua-1 main.typ ../build/Archivversion/innenteil.pdf
 
 Write-Host "Satz fuer den Druck (doppelseitig) ..."
-typst compile --root .. --input ausgabe=druck main.typ build/_satz-druck.pdf
+typst compile --root .. --input inhalt=$inhalt --input ausgabe=druck main.typ build/_satz-druck.pdf
 
 Write-Host "Druckfassung (CMYK, 154 x 216 mm mit 3 mm Beschnitt) ..."
 python ../template/innenteil/tools/druckdatei.py build/_satz-druck.pdf ../build/Druckversion/innenteil.pdf

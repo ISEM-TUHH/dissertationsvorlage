@@ -17,7 +17,8 @@ BASIS = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__
 os.chdir(BASIS)
 
 INNEN = "build/Druckversion/innenteil.pdf"
-BUCHDATEN = "inhalt/buchdaten.typ"
+INHALT = "inhalt" if os.path.isdir("inhalt") else "inhalt-vorlage"
+BUCHDATEN = INHALT + "/buchdaten.typ"
 
 fehler = 0
 

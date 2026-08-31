@@ -82,7 +82,6 @@
     isbn-druck: diss.isbn_druck,
     isbn-online: diss.isbn_online,
     doi: diss.doi,
-    coverdesign: diss.coverdesign,
     herstellung: diss.herstellung,
     papier: diss.papier,
     rechte: diss.rechte,
@@ -109,29 +108,29 @@
 
   if diss.mit_herausgebervorwort [
     #front-heading(t.herausgebervorwort)
-    #include "/inhalt/titelei/herausgebervorwort.typ"
+    #include inhaltspfad("/titelei/herausgebervorwort.typ")
   ]
   if diss.mit_vorwort [
     #front-heading(t.vorwort)
-    #include "/inhalt/titelei/vorwort.typ"
+    #include inhaltspfad("/titelei/vorwort.typ")
   ]
   if diss.mit_danksagung [
     #front-heading(t.danksagung)
-    #include "/inhalt/titelei/danksagung.typ"
+    #include inhaltspfad("/titelei/danksagung.typ")
   ]
   if diss.mit_zusammenfassung [
     #front-heading(t.zusammenfassung)
-    #include "/inhalt/titelei/zusammenfassung.typ"
+    #include inhaltspfad("/titelei/zusammenfassung.typ")
   ]
   if diss.mit_abstract [
     #front-heading(t.abstract)
-    #include "/inhalt/titelei/abstract.typ"
+    #include inhaltspfad("/titelei/abstract.typ")
   ]
   if diss.mit_motto [
-    #include "/inhalt/titelei/motto.typ"
+    #include inhaltspfad("/titelei/motto.typ")
   ]
   if diss.mit_widmung [
-    #include "/inhalt/titelei/widmung.typ"
+    #include inhaltspfad("/titelei/widmung.typ")
   ]
 
   // Das Inhaltsverzeichnis ist das einzige Verzeichnis vor dem Text.
@@ -156,7 +155,7 @@
     set heading(numbering: "A.1")
     anhang-beginn()
     front-heading(t.anhang, verzeichnet: true)
-    include "/inhalt/anhang/00_einfuehrung.typ"
+    include inhaltspfad("/anhang/00_einfuehrung.typ")
 
     for a in anhaenge {
       anhang-setzen(a.titel, kennung: a.at("kennung", default: none))[#a.inhalt]
@@ -173,7 +172,7 @@
 
   if diss.mit_studentische_arbeiten [
     #front-heading(t.studentische_arbeiten)
-    #include "/inhalt/titelei/studentische_arbeiten.typ"
+    #include inhaltspfad("/titelei/studentische_arbeiten.typ")
   ]
 
   // ═══ Verzeichnisse ═════════════════════════════════════════════════════
@@ -186,11 +185,11 @@
   // ═══ Erklaerungen ══════════════════════════════════════════════════════
   if diss.mit_ki_erklaerung [
     #front-heading(t.ki_erklaerung)
-    #include "/inhalt/titelei/ki_erklaerung.typ"
+    #include inhaltspfad("/titelei/ki_erklaerung.typ")
   ]
   if diss.mit_eidesstattliche_erklaerung [
     #front-heading(t.eidesstattlich)
-    #include "/inhalt/titelei/eidesstattliche_erklaerung.typ"
+    #include inhaltspfad("/titelei/eidesstattliche_erklaerung.typ")
   ]
 
   // ═══ Lebenslauf ════════════════════════════════════════════════════════
@@ -198,7 +197,7 @@
   // bedruckte Seite; in der genehmigten Fassung optional.
   if diss.mit_lebenslauf [
     #front-heading(t.lebenslauf)
-    #include "/inhalt/titelei/lebenslauf.typ"
+    #include inhaltspfad("/titelei/lebenslauf.typ")
   ]
 
   // Was in main.typ hinter dem show-Aufruf steht, landet hier - im

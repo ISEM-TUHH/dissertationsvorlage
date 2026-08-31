@@ -158,9 +158,9 @@
   isbn_online: none,
   doi: "10.15480/000.0000",
 
-  coverdesign: "Erika Musterfrau und Max Mustermann",
-
   // Kolophon der Buchausgabe. none = Zeile entfaellt.
+  // (Das Coverdesign-Credit ist fuer die ganze Reihe gleich und steht fest
+  // in der Vorlage - template/innenteil/impressum.typ.)
   herstellung: "WIRmachenDRUCK GmbH, Backnang",
   papier: [
     Gedruckt auf säurefreiem und alterungsbeständigem Papier

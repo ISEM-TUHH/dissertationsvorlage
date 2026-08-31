@@ -2,6 +2,7 @@
 # `.\template\bauen.ps1` (bzw. `./template/bauen.sh`) erzeugt sie in wenigen Sekunden neu.
 build/
 inhalt/build/
+inhalt-vorlage/build/
 template/cover/build/
 
 # Unterlagen Dritter. Sie werden nur zum Nachmessen gebraucht, von keinem

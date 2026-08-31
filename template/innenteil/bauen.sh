@@ -10,23 +10,25 @@ set -euo pipefail
 hier="$(cd "$(dirname "$0")" && pwd)"
 wurzel="$(cd "$hier/../.." && pwd)"
 py="$(command -v python3 || command -v python)"
-cd "$wurzel/inhalt"
+inhalt="inhalt"
+[ -d "$wurzel/inhalt" ] || inhalt="inhalt-vorlage"
+cd "$wurzel/$inhalt"
 
 # Zwischendateien bleiben in inhalt/build, die fertigen Dateien wandern in
 # ../build mit seinen Unterordnern.
 mkdir -p build ../build/Druckversion ../build/Onlineversion ../build/Archivversion ../build/Kontrolle
 
 echo "Onlinefassung (RGB, 148 x 210 mm, ohne Beschnitt) ..."
-typst compile --root .. main.typ ../build/Onlineversion/innenteil.pdf
+typst compile --root .. --input "inhalt=$inhalt" main.typ ../build/Onlineversion/innenteil.pdf
 
 echo "Onlinefassung verkleinern ..."
 "$py" ../template/innenteil/tools/verkleinern.py ../build/Onlineversion/innenteil.pdf
 
 echo "Archivfassung (PDF/A-2b + PDF/UA-1, fuer TORE und DNB) ..."
-typst compile --root .. --pdf-standard a-2b,ua-1 main.typ ../build/Archivversion/innenteil.pdf
+typst compile --root .. --input "inhalt=$inhalt" --pdf-standard a-2b,ua-1 main.typ ../build/Archivversion/innenteil.pdf
 
 echo "Satz fuer den Druck (doppelseitig) ..."
-typst compile --root .. --input ausgabe=druck main.typ build/_satz-druck.pdf
+typst compile --root .. --input "inhalt=$inhalt" --input ausgabe=druck main.typ build/_satz-druck.pdf
 
 echo "Druckfassung (CMYK, 154 x 216 mm mit 3 mm Beschnitt) ..."
 "$py" ../template/innenteil/tools/druckdatei.py build/_satz-druck.pdf ../build/Druckversion/innenteil.pdf

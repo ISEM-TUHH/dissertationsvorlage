@@ -6,6 +6,7 @@
 
 $ErrorActionPreference = "Stop"
 Set-Location $PSScriptRoot
+$inhalt = if (Test-Path "$PSScriptRoot\..\..\inhalt") { "inhalt" } else { "inhalt-vorlage" }
 # Zwischendateien bleiben hier, die fertigen Dateien wandern in
 # ..\..\build mit seinen Unterordnern.
 foreach ($o in "build", "..\..\build\Druckversion", "..\..\build\Onlineversion", "..\..\build\Archivversion", "..\..\build\Kontrolle") {
@@ -16,16 +17,16 @@ Write-Host "Logos aus den Quellen erzeugen ..."
 python tools/gen_logos.py
 
 Write-Host "Druckdatei Umschlag (CMYK) ..."
-typst compile --root ../.. umschlag.typ ../../build/Druckversion/umschlag.pdf
+typst compile --root ../.. --input inhalt=$inhalt umschlag.typ ../../build/Druckversion/umschlag.pdf
 
 Write-Host "Ausgabebedingung eintragen (ISO Coated v2 300% ECI) ..."
 python tools/ausgabebedingung.py ../../build/Druckversion/umschlag.pdf
 
 Write-Host "Kontrollansicht mit Hilfslinien ..."
-typst compile --root ../.. --input hilfslinien=ja umschlag.typ ../../build/Kontrolle/umschlag-hilfslinien.pdf
+typst compile --root ../.. --input inhalt=$inhalt --input hilfslinien=ja umschlag.typ ../../build/Kontrolle/umschlag-hilfslinien.pdf
 
 Write-Host "Bildschirmfassung (RGB, Titelseite vorn / Rueckseite hinten) ..."
-typst compile --root ../.. --input farbraum=rgb bildschirm.typ ../../build/Onlineversion/umschlag.pdf
+typst compile --root ../.. --input inhalt=$inhalt --input farbraum=rgb bildschirm.typ ../../build/Onlineversion/umschlag.pdf
 
 Write-Host ""
 python tools/pruefen.py

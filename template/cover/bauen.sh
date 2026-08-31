@@ -9,6 +9,8 @@ set -euo pipefail
 hier="$(cd "$(dirname "$0")" && pwd)"
 py="$(command -v python3 || command -v python)"
 cd "$hier"
+inhalt="inhalt"
+[ -d "$hier/../../inhalt" ] || inhalt="inhalt-vorlage"
 
 # Zwischendateien bleiben hier, die fertigen Dateien wandern in
 # ../../build mit seinen Unterordnern.
@@ -18,16 +20,16 @@ echo "Logos aus den Quellen erzeugen ..."
 "$py" tools/gen_logos.py
 
 echo "Druckdatei Umschlag (CMYK) ..."
-typst compile --root ../.. umschlag.typ ../../build/Druckversion/umschlag.pdf
+typst compile --root ../.. --input "inhalt=$inhalt" umschlag.typ ../../build/Druckversion/umschlag.pdf
 
 echo "Ausgabebedingung eintragen (ISO Coated v2 300% ECI) ..."
 "$py" tools/ausgabebedingung.py ../../build/Druckversion/umschlag.pdf
 
 echo "Kontrollansicht mit Hilfslinien ..."
-typst compile --root ../.. --input hilfslinien=ja umschlag.typ ../../build/Kontrolle/umschlag-hilfslinien.pdf
+typst compile --root ../.. --input "inhalt=$inhalt" --input hilfslinien=ja umschlag.typ ../../build/Kontrolle/umschlag-hilfslinien.pdf
 
 echo "Bildschirmfassung (RGB, Titelseite vorn / Rueckseite hinten) ..."
-typst compile --root ../.. --input farbraum=rgb bildschirm.typ ../../build/Onlineversion/umschlag.pdf
+typst compile --root ../.. --input "inhalt=$inhalt" --input farbraum=rgb bildschirm.typ ../../build/Onlineversion/umschlag.pdf
 
 echo ""
 "$py" tools/pruefen.py

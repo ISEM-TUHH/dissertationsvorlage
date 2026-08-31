@@ -7,7 +7,7 @@
 // nach RGB um. Ohne ihn entsteht dieselbe Datei in CMYK.
 
 #import "src/cover.typ": bildschirm
-#import "/inhalt/buchdaten.typ": buch
+#import "/" + sys.inputs.at("inhalt", default: "inhalt") + "/buchdaten.typ": buch
 
 #show: bildschirm.with(
   titel: buch.titel,

@@ -39,6 +39,15 @@
 // `typst compile --input ausgabe=druck` setzt doppelseitig fuer den Druck.
 #let ist-druck = sys.inputs.at("ausgabe", default: "online") == "druck"
 
+// ── Inhaltsordner ─────────────────────────────────────────────────────────
+// Die Arbeit liegt in inhalt/; solange es den Ordner nicht gibt (im frisch
+// geklonten Vorlagen-Repositorium), springt der Bau auf das Beispiel in
+// inhalt-vorlage/. Die bauen-Skripte reichen den Namen per
+// `--input inhalt=...` durch; wer von Hand baut, uebergibt ihn genauso.
+#let inhaltsordner = sys.inputs.at("inhalt", default: "inhalt")
+/// Wurzelbezogener Pfad in den Inhaltsordner: `inhaltspfad("/titelei/x.typ")`.
+#let inhaltspfad(rest) = "/" + inhaltsordner + rest
+
 // ── Farben ────────────────────────────────────────────────────────────────
 // Wie beim Umschlag ist jede Farbe in BEIDEN Farbraeumen verbindlich
 // hinterlegt und wird nicht umgerechnet. Fuer den Druck steht damit
@@ -786,7 +795,7 @@
 /// dorthin aufgeloest; wer ein Bild von anderswo braucht, gibt einen
 /// wurzelbezogenen Pfad an ("/inhalt/sonstwo/bild.png"). Gebaut wird immer
 /// mit dem Repositorium als Wurzel (--root), siehe bauen.ps1.
-#let bildpfad(pfad) = if pfad.starts-with("/") { pfad } else { "/inhalt/abbildungen/" + pfad }
+#let bildpfad(pfad) = if pfad.starts-with("/") { pfad } else { inhaltspfad("/abbildungen/" + pfad) }
 
 /// Abbildung, die sicher auf die Seite passt: skaliert auf Satzbreite und
 /// begrenzt die Hoehe, falls das Bild sonst ueber den Satzspiegel liefe.

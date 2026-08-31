@@ -38,7 +38,9 @@ import sys
 import fitz
 
 HIER = os.path.dirname(os.path.abspath(__file__))
-os.chdir(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(HIER))), "inhalt"))
+_wurzel = os.path.dirname(os.path.dirname(os.path.dirname(HIER)))
+_inhalt = "inhalt" if os.path.isdir(os.path.join(_wurzel, "inhalt")) else "inhalt-vorlage"
+os.chdir(os.path.join(_wurzel, _inhalt))
 
 MM = 72.0 / 25.4
 GRUNDSCHRIFT = 10.0

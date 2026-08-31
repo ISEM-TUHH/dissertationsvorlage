@@ -28,7 +28,9 @@ import unicodedata
 import fitz
 
 HIER = os.path.dirname(os.path.abspath(__file__))
-os.chdir(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(HIER))), "inhalt"))
+_wurzel = os.path.dirname(os.path.dirname(os.path.dirname(HIER)))
+_inhalt = "inhalt" if os.path.isdir(os.path.join(_wurzel, "inhalt")) else "inhalt-vorlage"
+os.chdir(os.path.join(_wurzel, _inhalt))
 
 ANZAHL = 40
 if "--anzahl" in sys.argv:
@@ -40,7 +42,7 @@ DATEI = "build/_umbruch.pdf"
 
 def bauen():
     ergebnis = subprocess.run(
-        ["typst", "compile", "--root", "..", "--input", "ausgabe=druck", "main.typ", DATEI],
+        ["typst", "compile", "--root", "..", "--input", "inhalt=" + os.path.basename(os.getcwd()), "--input", "ausgabe=druck", "main.typ", DATEI],
         capture_output=True, text=True)
     if ergebnis.returncode:
         sys.exit("Satz fehlgeschlagen:\n" + ergebnis.stderr[:2000])

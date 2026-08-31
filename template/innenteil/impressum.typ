@@ -101,7 +101,9 @@
   isbn-druck: none,
   isbn-online: none,
   doi: none,
-  coverdesign: none,
+  // Das Coverdesign der Reihe ist fuer alle Baende dasselbe - das Credit
+  // gehoert deshalb zur Vorlage, nicht in die angaben.typ des Bandes.
+  coverdesign: "Cerrigan Rose und Felix Förster",
   herstellung: none,
   papier: none,
   rechte: none,

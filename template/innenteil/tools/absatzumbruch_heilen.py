@@ -28,7 +28,9 @@ import unicodedata
 import fitz
 
 HIER = os.path.dirname(os.path.abspath(__file__))
-os.chdir(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(HIER))), "inhalt"))
+_wurzel = os.path.dirname(os.path.dirname(os.path.dirname(HIER)))
+_inhalt = "inhalt" if os.path.isdir(os.path.join(_wurzel, "inhalt")) else "inhalt-vorlage"
+os.chdir(os.path.join(_wurzel, _inhalt))
 
 ANZAHL = 25
 if "--anzahl" in sys.argv:
@@ -39,7 +41,7 @@ KOSTEN = ('#text(costs: (widow: 4000%, orphan: 4000%))[', ']')
 
 def bauen():
     e = subprocess.run(
-        ["typst", "compile", "--root", "..", "--input", "ausgabe=druck", "main.typ", DATEI],
+        ["typst", "compile", "--root", "..", "--input", "inhalt=" + os.path.basename(os.getcwd()), "--input", "ausgabe=druck", "main.typ", DATEI],
         capture_output=True, text=True)
     if e.returncode:
         sys.exit("Satz fehlgeschlagen:\n" + e.stderr[:2000])

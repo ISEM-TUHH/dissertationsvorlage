@@ -31,16 +31,27 @@ Das Repositorium ist so geschnitten, dass sich deine Arbeit und die Vorlage
 nicht in die Quere kommen:
 
 ```
-inhalt/      ← DEINE Dissertation: Kapitel, Bilder, Literatur, Angaben.
-              Nur hier schreibst du.
-template/    ← die Vorlage: Satz, Umschlag, Prüfskripte.
-              Hier änderst du nichts - dieser Ordner wird aktualisiert.
+inhalt/           ← DEINE Dissertation: Kapitel, Bilder, Literatur, Angaben.
+                   Nur hier schreibst du. (Legst du selbst an, siehe unten.)
+inhalt-vorlage/   ← das Beispiel der Vorlage: dein Startpunkt und später
+                   deine Referenz. Wird mit der Vorlage aktualisiert.
+template/         ← die Vorlage: Satz, Umschlag, Prüfskripte.
+                   Hier änderst du nichts - dieser Ordner wird aktualisiert.
 ```
 
-**So bleibst du während der Schreibzeit aktuell:** Du forkst dieses
-Repositorium und schreibst in `inhalt/`. Wird die Vorlage verbessert, holst
-du dir den neuen Stand — deine Kapitel bleiben unberührt, weil die Vorlage
-nur `template/` ändert:
+**Loslegen:** Fork anlegen, klonen, und das Beispiel einmal als deinen
+Arbeitsordner kopieren:
+
+```powershell
+Copy-Item -Recurse inhalt-vorlage inhalt     # macOS/Linux: cp -r inhalt-vorlage inhalt
+```
+
+Ab jetzt baut alles automatisch aus `inhalt/`; solange es den Ordner nicht
+gibt, wird das Beispiel gebaut.
+
+**So bleibst du während der Schreibzeit aktuell:** Die Vorlage ändert nur
+`template/` und `inhalt-vorlage/` — niemals `inhalt/`. Ein Update kann
+deshalb nie mit deinen Kapiteln kollidieren:
 
 ```powershell
 git remote add vorlage https://github.com/ISEM-TUHH/dissertationsvorlage.git   # einmalig
@@ -48,7 +59,8 @@ git fetch vorlage
 git merge vorlage/main
 ```
 
-Beim nächsten `.\template\bauen.ps1` ist deine Arbeit im neuen Satz.
+Beim nächsten `.\template\bauen.ps1` ist deine Arbeit im neuen Satz, und in
+`inhalt-vorlage/` liegt das frische Beispiel zum Nachschlagen daneben.
 
 ---
 
@@ -156,24 +168,12 @@ python ../template/innenteil/tools/tuhh_pruefen.py      # Formalia der TUHH
 python ../template/innenteil/tools/umbruch_pruefen.py   # Hurenkinder, Schusterjungen, Trennungen
 ```
 
-### Werkzeuge für die Übernahme einer bestehenden Arbeit
+### Übernahme einer bereits gesetzten Arbeit
 
-Acht der Skripte erwarten als Argument ein Original-PDF. Sie werden nur
-gebraucht, wenn eine bereits gesetzte Arbeit in die Reihe übernommen wird —
-so ist Band 000 entstanden. Für eine neu geschriebene Dissertation sind sie
-ohne Bedeutung:
-
-```powershell
-python ../template/innenteil/tools/textabdeckung.py <original.pdf>            # fehlt Text?
-python ../template/innenteil/tools/fussnoten_wortlaut.py <original.pdf>       # stimmt jede Fußnote?
-python ../template/innenteil/tools/fussnoten_mengen.py <original.pdf>         # fehlt oder doppelt?
-python ../template/innenteil/tools/fussnote_original.py <original.pdf> 42     # Wortlaut einer Fußnote
-python ../template/innenteil/tools/zitate_richtigstellen.py <original.pdf> 2  # richtige Quelle zitiert?
-python ../template/innenteil/tools/abbildungen_pruefen.py <original.pdf>      # Abbildung abgeschnitten?
-python ../template/innenteil/tools/aufzaehlungen_abgleichen.py <original.pdf> # Aufzählung abgegrenzt?
-python ../template/innenteil/tools/absaetze_zusammenfuehren.py <original.pdf> # Absatz zerrissen?
-```
-
+Die Werkzeuge, mit denen eine bereits gedruckte Arbeit in die Reihe
+übernommen wird (Textabdeckung, Fußnotenabgleich, Zitatkontrolle …), liegen
+nicht in der Vorlage, sondern beim Belegexemplar: im Repository von Band 000.
+Für eine neu geschriebene Dissertation braucht es sie nicht.
 ### Umbruch beheben, ohne den Text zu ändern
 
 Zwei Werkzeuge beheben Umbruchprobleme selbst, **ohne den Text zu ändern** —
@@ -192,7 +192,7 @@ Der Wortlaut der Autorin oder des Autors bleibt dabei unangetastet.
 ## Ordner
 
 ```
-inhalt/          ← deine Arbeit. Nur hier schreibst du.
+inhalt/          ← deine Arbeit (deine Kopie von inhalt-vorlage/)
   angaben.typ      alle Angaben zur Arbeit (auch PDF-Metadaten)
   buchdaten.typ    Angaben für den Umschlag
   main.typ         Reihenfolge deiner Kapitel und Anhänge
@@ -201,6 +201,7 @@ inhalt/          ← deine Arbeit. Nur hier schreibst du.
   anhang/          deine Anhänge
   titelei/         Vorwort, Danksagung, Kurzfassung, Abstract …
   abbildungen/     deine Bilddateien
+inhalt-vorlage/  ← das Beispiel der Vorlage. Wird per git merge aktualisiert.
 template/        ← die Vorlage. Wird per git merge aktualisiert.
   innenteil/       der Satz: Satzspiegel, Raster, Verzeichnisse, Deckblätter
     tools/         Druckdatei, Verkleinerung, Umbruch- und Formatprüfung

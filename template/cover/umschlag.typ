@@ -5,7 +5,7 @@
 //   typst compile --input hilfslinien=ja umschlag.typ build/umschlag-kontrolle.pdf
 
 #import "src/cover.typ": umschlag
-#import "/inhalt/buchdaten.typ": buch
+#import "/" + sys.inputs.at("inhalt", default: "inhalt") + "/buchdaten.typ": buch
 
 #show: umschlag.with(
   titel: buch.titel,

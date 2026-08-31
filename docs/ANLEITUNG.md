@@ -162,9 +162,19 @@ typst watch --root .. main.typ ../build/Onlineversion/innenteil.pdf
 
 ### 3.1 Fork und Vorlagen-Updates
 
-Die Trennung in `inhalt/` (deine Arbeit) und `template/` (die Vorlage) ist
-dafür gemacht, dass du dieses Repositorium **forkst** und die Vorlage
-während der Schreibzeit aktuell halten kannst:
+Die Trennung in `inhalt/` (deine Arbeit), `inhalt-vorlage/` (das Beispiel)
+und `template/` (die Vorlage) ist dafür gemacht, dass du dieses Repositorium
+**forkst** und die Vorlage während der Schreibzeit aktuell halten kannst.
+
+Nach dem Fork legst du deinen Arbeitsordner einmalig als Kopie des
+Beispiels an:
+
+```powershell
+Copy-Item -Recurse inhalt-vorlage inhalt     # macOS/Linux: cp -r inhalt-vorlage inhalt
+```
+
+Alle Bau- und Prüfskripte nehmen automatisch `inhalt/`, sobald es existiert
+— vorher bauen sie das Beispiel. Updates holst du dir so:
 
 ```powershell
 git remote add vorlage https://github.com/ISEM-TUHH/dissertationsvorlage.git   # einmalig
@@ -172,12 +182,13 @@ git fetch vorlage
 git merge vorlage/main
 ```
 
-Verbesserungen an der Vorlage betreffen nur `template/` (und gelegentlich
-die Bau-Skripte und diese Anleitung) — deine Dateien in `inhalt/` bleiben
-beim Merge unberührt. Konflikte kann es nur geben, wenn du selbst in
-`template/` etwas geändert hast; genau deshalb gilt: in `template/` wird
-nichts angepasst. Fehlt dir dort etwas, mach ein Issue daraus — dann bekommt
-es jede zukünftige Arbeit.
+Verbesserungen an der Vorlage betreffen nur `template/`, `inhalt-vorlage/`
+und die Doku — deinen Ordner `inhalt/` fasst kein Update je an, ein Merge
+kann also nicht mit deinen Kapiteln kollidieren. Nach dem Merge liegt in
+`inhalt-vorlage/` außerdem immer das aktuelle Beispiel zum Vergleichen.
+Konflikte kann es nur geben, wenn du selbst in `template/` etwas geändert
+hast; genau deshalb gilt: in `template/` wird nichts angepasst. Fehlt dir
+dort etwas, mach ein Issue daraus — dann bekommt es jede zukünftige Arbeit.
 
 ---
 
@@ -501,24 +512,19 @@ Der bequeme Weg ist ein Add-on, das die `.bib`-Datei automatisch aktuell hält:
 | `template/innenteil/tools/tuhh_pruefen.py` | die TUHH-Formalia am fertigen PDF |
 | `template/innenteil/tools/umbruch_pruefen.py` | Hurenkinder, Schusterjungen, Trennungen über den Seitenumbruch, Trennungsleitern, kurze Schlusszeilen, Bildauflösung |
 
-Für einen aus dem Druck zurückgelesenen Band (siehe `Band000-Bursac/`) kommen
-vier weitere Werkzeuge dazu. Sie werden nicht bei jedem Bau aufgerufen,
-sondern von Hand, solange der Text noch nachgearbeitet wird:
-
-| Skript | leistet |
-|---|---|
-| `abgleich.py` | vergleicht den gesetzten Band Wort für Wort mit dem Original-PDF und meldet, was fehlt und was zu viel ist — mit Seitenzahl im Original |
-| `textreste_pruefen.py` | findet Narben der Rückwandlung in der Quelle: abgeschnittene Sätze, Bildbeschriftungen im Fließtext, Definitionen ohne Kasten, offene TODO |
-| `trennungen_heilen.py` | fügt Wörter zusammen, die ein Absatzumbruch zerrissen hat — mit oder ohne Leerzeichen, je nachdem, was im Original steht |
-| `bildreste_entfernen.py` | löscht Absätze, die keine Sätze sind: Beschriftungen aus Grafiken, die im Text gelandet sind |
-| `template/tools/umfang_pruefen.py` | ob Cover und Innenteil dieselbe Seitenzahl annehmen |
-
-Dazu kommt `template/innenteil/tools/verkleinern.py`: Es fasst gleiche Bilder zusammen
+Dazu kommen `template/tools/umfang_pruefen.py` (gleicht die Seitenzahl im
+Cover gegen den Innenteil ab), die beiden Umbruch-Helfer
+(`umbruch_heilen.py`, `absatzumbruch_heilen.py`) und
+`template/innenteil/tools/verkleinern.py`: Es fasst gleiche Bilder zusammen
 und begrenzt die Auflösung auf die von der Druckerei geforderten 300 dpi.
 Bei einer Arbeit mit vielen Abbildungen macht das den Unterschied zwischen
 einer handlichen und einer unverschickbaren Datei — im Testband von
-21,5 MB auf 7,4 MB. `.auen.ps1` ruft es selbst auf.
+21,5 MB auf 7,4 MB. `.\template\bauen.ps1` ruft es selbst auf.
 
+Die Werkzeuge für die **Übernahme einer bereits gedruckten Arbeit**
+(Wort-für-Wort-Abgleich, Fußnotenkontrolle, Zitatprüfung gegen das
+Original-PDF …) liegen nicht in der Vorlage, sondern beim Belegexemplar im
+Repository von Band 000. Wer neu schreibt, braucht sie nicht.
 Ein `[!!]` bedeutet: So kann das nicht in den Druck. Ein `[ ?]` ist ein
 Hinweis, den du selbst beurteilen musst.
 
@@ -640,13 +646,16 @@ bauen.ps1                     baut alles und prüft alles (Windows)
 bauen.sh                      dasselbe für macOS und Linux
 build/                        die fertigen Dateien
 
-inhalt/                       ← DEINE Arbeit. Nur hier schreibst du.
+inhalt/                       ← DEINE Arbeit (Kopie von inhalt-vorlage/)
   angaben.typ                 ← hier trägst du ein (auch PDF-Metadaten)
   buchdaten.typ               ← Angaben für den Umschlag
   main.typ                    Reihenfolge deiner Kapitel und Anhänge
   literatur.bib               Quellen (aus Zotero)
   kapitel/                    ← hier schreibst du
   anhang/  titelei/  abbildungen/
+
+inhalt-vorlage/               ← das Beispiel. Wird per git merge aktualisiert;
+                                Startpunkt und Referenz, nichts hineinschreiben.
 
 template/                     ← die Vorlage. Wird per git merge aktualisiert.
   bauen.ps1  bauen.sh         baut alles und prüft alles (Windows / macOS+Linux)

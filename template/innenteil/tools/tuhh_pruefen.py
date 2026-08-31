@@ -20,7 +20,9 @@ import sys
 import fitz
 
 HIER = os.path.dirname(os.path.abspath(__file__))
-BASIS = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(HIER))), "inhalt")
+_wurzel = os.path.dirname(os.path.dirname(os.path.dirname(HIER)))
+_inhalt = "inhalt" if os.path.isdir(os.path.join(_wurzel, "inhalt")) else "inhalt-vorlage"
+BASIS = os.path.join(_wurzel, _inhalt)
 os.chdir(BASIS)
 
 pdf = sys.argv[1] if len(sys.argv) > 1 else "../build/Onlineversion/dissertation.pdf"
