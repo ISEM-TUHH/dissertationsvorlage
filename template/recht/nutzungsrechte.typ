@@ -55,73 +55,36 @@
   *Dissertationen und Schutzrechte in der Reihe „Forschungsberichte des ISEM“*
 ])
 
-== 1. Urheberrecht an Dissertationen
+== 1. Urheberrecht
 
-Die Urheber von *Werken der Wissenschaft* genießen für ihre Werke Schutz
-nach dem Urheberrechtsgesetz (§ 1 UrhG). Zu den geschützten Werken zählen
-unter anderem Sprachwerke, Computerprogramme und Darstellungen
-wissenschaftlicher oder technischer Art wie Zeichnungen, Pläne, Skizzen und
-Tabellen (§ 2 UrhG). Dissertationen genießen als wissenschaftliche Werke
-diesen Schutz; er entsteht mit der Schaffung des Werks, ohne Anmeldung oder
-Registrierung.
-
-*Urheber* ist nach § 7 UrhG der Schöpfer des Werkes. Promovierende sind
-daher *alleinige Urheber* ihrer Dissertation. Das Urheberrecht ist *nicht
-übertragbar* (§ 29 Abs. 1 UrhG) — auch nicht auf das Institut oder die
-Universität. Ein Copyright-Vermerk lautet deshalb immer auf den Namen der
-Verfasserin oder des Verfassers, niemals auf das Institut.
-
-Die *Betreuung* einer Dissertation begründet keine (Mit-)Urheberschaft,
-auch dann nicht, wenn die betreuende Person Denkanstöße oder Ideen gegeben
-hat: Das UrhG schützt nicht die Idee, sondern nur ihre wahrnehmbare
-Darstellung. Ein Beschäftigungsverhältnis an der TUHH ändert daran nichts —
-für wissenschaftliche Werke von Hochschulangehörigen greift § 43 UrhG nach
-herrschender Auffassung nicht; die Wissenschaftsfreiheit (Art. 5 Abs. 3 GG)
-schützt die Verfügungsbefugnis der Forschenden über ihre eigenen Werke.
+Dissertationen sind urheberrechtlich geschützte Werke (§§ 1, 2 UrhG).
+Urheber sind allein die Promovierenden (§ 7 UrhG); das Urheberrecht ist
+nicht übertragbar (§ 29 Abs. 1 UrhG). Betreuung oder ein
+Beschäftigungsverhältnis an der TUHH ändern daran nichts — für
+wissenschaftliche Werke greift § 43 UrhG nicht.
 
 == 2. Erfindungen und Patente
 
-Erfindungen werden nicht durch das UrhG, sondern durch das Patentrecht
-geschützt (§ 1 PatG). Anders als bei studentischen Abschlussarbeiten sind
-Promovierende häufig zugleich *Beschäftigte* der TUHH; für sie gilt das
-Gesetz über Arbeitnehmererfindungen (ArbnErfG) mit dem Hochschulprivileg
-des § 42 ArbnErfG. Diensterfindungen sind unabhängig von den Regelungen
-dieses Blattes nach den Verfahren der TUHH zu melden. Die Urheberschaft an
-der Dissertation und die Erfinderschaft an einer darin beschriebenen
-technischen Neuerung sind getrennt zu beurteilen.
+Erfindungen unterliegen dem Patentrecht; für Beschäftigte der TUHH gilt
+das ArbnErfG (§ 42). Diensterfindungen sind unabhängig von diesem Blatt
+nach den Verfahren der TUHH zu melden.
 
-== 3. Veröffentlichung und Einräumung von Nutzungsrechten
+== 3. Nutzungsrechte für die Reihe
 
-Mit der Annahme der Dissertation entsteht die *Pflicht zur
-Veröffentlichung* (§ 16 der Promotionsordnung der TUHH). Die Reihe
-„Forschungsberichte des ISEM“ ist ein Weg, diese Pflicht zu erfüllen: Der
-Band erscheint gedruckt und elektronisch (TORE, Ablieferung an die
-Deutsche Nationalbibliothek).
-
-Damit das Institut den Band herstellen, verbreiten und dauerhaft
-zugänglich halten darf — und Inhalte daraus in Forschung, Lehre, Transfer
-und Wissenschaftskommunikation weiterverwenden kann —, braucht es
-*Nutzungsrechte* (§ 31 UrhG), nicht das Urheberrecht. Die Einräumung erfolgt unentgeltlich mit der
-umseitigen Erklärung; das Urheberrecht und alle nicht ausdrücklich
-eingeräumten Rechte verbleiben bei der Verfasserin oder dem Verfasser.
-Es besteht *keine Verpflichtung* zur Rechtseinräumung über das hinaus,
-was die Promotionsordnung für die Veröffentlichung verlangt; die
-Betreuung darf davon nicht abhängig gemacht werden.
-
-Wer eine weitergehende offene Nachnutzung wünscht, kann den Band
-zusätzlich unter eine Creative-Commons-Lizenz stellen (empfohlen:
-CC BY 4.0). Das ist auf der Erklärung ankreuzbar und ersetzt die
-Rechtseinräumung an das Institut nicht, sondern ergänzt sie.
+Für Druck, Vertrieb und dauerhafte Online-Stellung des Bandes (TORE, DNB)
+sowie die Weiterverwendung in Forschung, Lehre, Transfer und
+Wissenschaftskommunikation braucht das ISEM Nutzungsrechte (§ 31 UrhG).
+Sie werden mit der umseitigen Erklärung unentgeltlich eingeräumt; alle
+übrigen Rechte verbleiben beim Verfasser (§ 16 PromO bleibt unberührt).
+Optional kann der Band zusätzlich unter CC BY 4.0 gestellt werden.
 
 #v(1fr)
 #text(size: 9pt, fill: luma(30%))[
-  Dieses Blatt ist eine Arbeitshilfe des ISEM nach dem Vorbild des
-  TUHH-Informationsblatts „Abschlussarbeiten und Schutzrechte“ (ZPA) und
-  ersetzt keine Rechtsberatung. Verbindliche Auskünfte erteilt das
-  Justiziariat der TUHH. Die unterschriebene Erklärung wird im Institut
-  aufbewahrt.
+  Arbeitshilfe des ISEM nach dem Vorbild des TUHH-Blatts „Abschlussarbeiten
+  und Schutzrechte“ (ZPA); keine Rechtsberatung — verbindliche Auskünfte
+  erteilt das Justiziariat der TUHH. Die unterschriebene Erklärung wird im
+  Institut aufbewahrt.
 ]
-
 #pagebreak()
 #kopf
 
