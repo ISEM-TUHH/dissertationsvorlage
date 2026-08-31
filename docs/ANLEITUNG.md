@@ -634,7 +634,8 @@ Trennungen am Seitenende und Abbildungen mit 274 statt 300 dpi.
 ## 12. Ordnerübersicht
 
 ```
-ANLEITUNG.md                  dieses Dokument
+docs/ANLEITUNG.md             dieses Dokument
+docs/AENDERUNGEN-GEGENUEBER-WORD.md  was anders ist als in Word, und warum
 bauen.ps1                     baut alles und prüft alles (Windows)
 bauen.sh                      dasselbe für macOS und Linux
 build/                        die fertigen Dateien
@@ -652,6 +653,7 @@ template/                     ← die Vorlage. Wird per git merge aktualisiert.
   ISEM-Zitationsstil.csl      Zitierstil des Instituts
   ISOcoated_v2_300_eci.icc    Ausgabebedingung für den Druck
   buecher_mit_hardcover_...pdf  Datenblatt der Druckerei
+  requirements.txt            Python-Pakete der Skripte
   innenteil/
     isem.typ                  das Layout: Satzspiegel, Raster, Farben, Verzeichnisse
     tuhh.typ                  Deckblätter und Fassungsregeln

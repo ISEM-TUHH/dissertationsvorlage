@@ -5,7 +5,7 @@
 //  Fassung ergeben sich daraus automatisch.
 //
 //  Die Angaben zum Buchumschlag stehen getrennt in buchdaten.typ -
-//  warum, steht in ../ANLEITUNG.md.
+//  warum, steht in ../docs/ANLEITUNG.md.
 // ===========================================================================
 
 #let diss = (

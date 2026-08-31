@@ -3,7 +3,7 @@
 //
 //  Alle Angaben zur Arbeit stehen in angaben.typ, der Satz selbst liegt in
 //  ../template/ und wird hier nur aufgerufen. Gebaut wird mit ..\bauen.ps1
-//  (oder ../bauen.sh) - siehe ../ANLEITUNG.md.
+//  (oder ../bauen.sh) - siehe ../docs/ANLEITUNG.md.
 //
 //  Ein neues Kapitel: Datei in kapitel/ anlegen und unten eine Zeile in die
 //  Liste eintragen. Die Reihenfolge hier ist die Reihenfolge im Buch.
@@ -17,7 +17,7 @@
   abkuerzungen: abkuerzungen,
   formelzeichen: formelzeichen,
   // Die Quellen. Die .bib-Datei liegt neben dieser Datei und wird von
-  // Zotero gepflegt - siehe ANLEITUNG.md, Kapitel "Literatur und Zotero".
+  // Zotero gepflegt - siehe docs/ANLEITUNG.md, Kapitel "Literatur und Zotero".
   literatur: bibliography(
     "literatur.bib",
     title: none,

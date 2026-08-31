@@ -4,7 +4,7 @@
     python tools/gesamt.py
 
 Nur für die Onlinefassung. Die Druckerei bekommt Umschlag und Innenteil
-getrennt - warum, steht in ANLEITUNG.md.
+getrennt - warum, steht in docs/ANLEITUNG.md.
 
 Was das Skript leistet:
   - hängt die Titelseite (U1) vorn und die Rückseite (U4) hinten an

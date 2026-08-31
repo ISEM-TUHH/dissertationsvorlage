@@ -18,7 +18,7 @@ Zwei Schritte:
 
    Das ist zulaessig, solange der Innenteil keine randabfallenden Objekte
    enthaelt: der zusaetzliche Rand ist dann Papierweisz. Andernfalls muss
-   direkt im Datenformat gesetzt werden (siehe ANLEITUNG.md).
+   direkt im Datenformat gesetzt werden (siehe docs/ANLEITUNG.md).
 """
 import os
 import shutil

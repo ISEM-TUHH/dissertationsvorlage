@@ -83,7 +83,7 @@ Vorlage unter `template/`.
 | **Python** ab 3.10 | Prüfskripte und Druckdateien | [python.org](https://www.python.org) |
 | **Ghostscript** | CMYK-Wandlung des Innenteils | [ghostscript.com](https://www.ghostscript.com) |
 | **Cambria** | die Schrift der Reihe | liegt jedem Windows und jedem Office bei |
-| PyMuPDF, Pillow | für die Skripte | `pip install -r requirements.txt` |
+| PyMuPDF, Pillow | für die Skripte | `pip install -r template/requirements.txt` |
 
 Das Farbprofil `template/ISOcoated_v2_300_eci.icc` liegt bei. Es stammt vom
 [European Color Initiative](https://www.eci.org) und darf frei verwendet
@@ -114,7 +114,7 @@ Deine Kapitel liegen als einzelne Dateien in `inhalt/kapitel/`, deine
 Bilder in `inhalt/abbildungen/`. Ein neues Kapitel ist eine neue Datei plus
 eine Zeile in `inhalt/main.typ`.
 
-Alles Weitere steht ausführlich in **[ANLEITUNG.md](ANLEITUNG.md)** — von der
+Alles Weitere steht ausführlich in **[docs/ANLEITUNG.md](docs/ANLEITUNG.md)** — von der
 Installation über Zotero bis zur Übergabe an die Druckerei.
 
 ---
@@ -138,7 +138,7 @@ Installation über Zotero bis zur Übergabe an die Druckerei.
   Cambria Math für Formeln, Aufzählungszeichen in der Hausfarbe.
 
 Warum das so eingerichtet ist, steht in
-**[AENDERUNGEN-GEGENUEBER-WORD.md](AENDERUNGEN-GEGENUEBER-WORD.md)** — dort
+**[docs/AENDERUNGEN-GEGENUEBER-WORD.md](docs/AENDERUNGEN-GEGENUEBER-WORD.md)** — dort
 ist auch beschrieben, welche dieser Punkte sich in Word nachbauen lassen und
 wie.
 
@@ -208,6 +208,8 @@ template/        ← die Vorlage. Wird per git merge aktualisiert.
   tools/           Gesamtdatei, Umfangsabgleich, Farbprofil
   ISEM-Zitationsstil.csl   Zitierstil des Instituts
   ISOcoated_v2_300_eci.icc Ausgabebedingung für den Druck
+  requirements.txt Python-Pakete der Skripte
+docs/            Anleitung, Hintergründe, Vorschaubilder
 bauen.ps1        baut alles und prüft alles (Windows)
 bauen.sh         dasselbe für macOS und Linux
 build/           die fertigen Dateien
@@ -226,10 +228,10 @@ auch in einer neuen Arbeit. Der Band liegt in einem eigenen, nicht
 
 ## Fassungen
 
-Was sich von Fassung zu Fassung ändert, steht in
-**[CHANGELOG.md](CHANGELOG.md)**. Notiere dir, mit welcher Fassung du
-begonnen hast — dann ist später nachvollziehbar, warum ein älterer Band
-anders aussieht als ein neuer.
+Was sich von Fassung zu Fassung ändert, steht in den Notizen der
+[Releases](../../releases). Notiere dir, mit welcher Fassung du begonnen
+hast — dann ist später nachvollziehbar, warum ein älterer Band anders
+aussieht als ein neuer.
 
 ---
 
