@@ -6,3 +6,6 @@
 *.pdf   binary
 *.png   binary
 *.icc   binary
+
+# Shell-Skripte brauchen LF, sonst scheitert bash unter macOS/Linux.
+*.sh    text eol=lf

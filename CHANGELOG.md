@@ -1,13 +1,50 @@
 # Änderungen
 
 Diese Datei hält fest, was sich von Fassung zu Fassung ändert. Wer eine
-Arbeit setzt, sollte in `Innenteil/angaben.typ` notieren, mit welcher Fassung
+Arbeit setzt, sollte in `inhalt/angaben.typ` notieren, mit welcher Fassung
 er begonnen hat — dann lässt sich später nachvollziehen, warum ein alter Band
 anders aussieht als ein neuer.
 
 Die Nummern folgen [SemVer](https://semver.org): Die erste Stelle steigt,
 wenn eine bestehende Arbeit nach dem Umstieg anders umbricht; die zweite bei
 neuen Möglichkeiten, die nichts kaputtmachen; die dritte bei Korrekturen.
+
+## [1.0.1] — 2026-08-31
+
+Umbau für den Fork-Arbeitsablauf: Die Vorlage lebt jetzt vollständig in
+`template/`, die Arbeit vollständig in `inhalt/`. Wer die Vorlage forkt und
+schreibt, holt sich Verbesserungen mit `git merge vorlage/main` — die
+eigenen Kapitel bleiben dabei unberührt, weil Vorlagen-Updates nur
+`template/` ändern.
+
+### Geändert
+
+- **Neue Ordnerstruktur.** `Innenteil/src` → `template/innenteil`,
+  `Innenteil/tools` → `template/innenteil/tools`, `Cover` → `template/cover`,
+  `tools` → `template/tools`. Kapitel, Titelei, Anhänge, `angaben.typ`,
+  `literatur.bib` und neu auch `buchdaten.typ` liegen in `inhalt/`.
+- **Schlanke `main.typ`.** Der komplette Zusammenbau (Titelei, Hauptteil,
+  Verzeichnisse, Erklärungen) ist nach `template/innenteil/buch.typ`
+  gewandert. In `inhalt/main.typ` stehen nur noch die Kapitel- und
+  Anhangliste — mehr muss beim Schreiben nicht angefasst werden.
+- **Kapiteldateien ohne Gerüst.** Das `#let inhalt = [ … ]` entfällt;
+  Kapitel sind gewöhnliche Typst-Dateien und werden per `include`
+  eingebunden. Erste Zeile: `#import "/template/innenteil/isem.typ": *`.
+- **`abbildung("name.png")`** sucht Bilder in `inhalt/abbildungen/` —
+  der Pfad `../abbildungen/…` entfällt. Gebaut wird immer mit `--root` auf
+  dem Repositorium; die Bau-Skripte und die Anleitung sind entsprechend
+  angepasst.
+
+### Neu
+
+- **Bildquellen bei der Abbildung.** `#bildquelle(<schlüssel>)` in der
+  Beschriftung setzt die Quelle als Fußnote auf die Seite der Abbildung.
+  Im Abbildungsverzeichnis wird sie unterdrückt — dort stehen keine
+  Quellen und keine Fußnoten mehr.
+- **PDF-Metadaten.** Titel, Verfasser und die neuen `schlagworte` aus
+  `inhalt/angaben.typ` stehen in den Metadaten aller erzeugten PDF.
+- **macOS/Linux.** Zu jedem `bauen.ps1` gibt es ein gleichwertiges
+  `bauen.sh`.
 
 ## [1.0.0] — 2026-08-30
 

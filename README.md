@@ -15,7 +15,7 @@ Aus einer Quelle entstehen drei Dateien:
 |---|---|
 | ![Zwei Seiten aus dem Satz](docs/vorschau-satz.png) | ![Titelseite des Umschlags](docs/vorschau-umschlag.png) |
 
-Beides stammt aus dem Demoband, den `.auen.ps1` erzeugt. Er liegt auch
+Beides stammt aus dem Demoband, den `.\bauen.ps1` erzeugt. Er liegt auch
 fertig bei den [Releases](../../releases) — ein Klick statt einer
 Installation.
 
@@ -25,12 +25,39 @@ ein Befehl baut daraus das fertige Buch.
 
 ---
 
+## Zwei Ordner, klare Rollen
+
+Das Repositorium ist so geschnitten, dass sich deine Arbeit und die Vorlage
+nicht in die Quere kommen:
+
+```
+inhalt/      ← DEINE Dissertation: Kapitel, Bilder, Literatur, Angaben.
+              Nur hier schreibst du.
+template/    ← die Vorlage: Satz, Umschlag, Prüfskripte.
+              Hier änderst du nichts - dieser Ordner wird aktualisiert.
+```
+
+**So bleibst du während der Schreibzeit aktuell:** Du forkst dieses
+Repositorium und schreibst in `inhalt/`. Wird die Vorlage verbessert, holst
+du dir den neuen Stand — deine Kapitel bleiben unberührt, weil die Vorlage
+nur `template/` ändert:
+
+```powershell
+git remote add vorlage https://github.com/ISEM-TUHH/dissertationsvorlage.git   # einmalig
+git fetch vorlage
+git merge vorlage/main
+```
+
+Beim nächsten `.\bauen.ps1` ist deine Arbeit im neuen Satz.
+
+---
+
 ## In fünf Minuten zum ersten PDF
 
 ```powershell
 git clone https://github.com/ISEM-TUHH/dissertationsvorlage.git
 cd dissertationsvorlage
-.\bauen.ps1
+.\bauen.ps1          # unter macOS/Linux: ./bauen.sh
 ```
 
 Danach liegt alles in `build/`. Wenn etwas fehlt, sagt dir das Skript, was.
@@ -38,11 +65,13 @@ Danach liegt alles in `build/`. Wenn etwas fehlt, sagt dir das Skript, was.
 Für den Alltag reicht:
 
 ```powershell
-cd Innenteil
-typst watch main.typ ../build/Onlineversion/innenteil.pdf
+cd inhalt
+typst watch --root .. main.typ ../build/Onlineversion/innenteil.pdf
 ```
 
 Typst baut dann bei jedem Speichern neu — meist in unter einer Sekunde.
+Das `--root ..` gehört dazu: Es erlaubt der Hauptdatei den Zugriff auf die
+Vorlage unter `template/`.
 
 ---
 
@@ -56,7 +85,7 @@ Typst baut dann bei jedem Speichern neu — meist in unter einer Sekunde.
 | **Cambria** | die Schrift der Reihe | liegt jedem Windows und jedem Office bei |
 | PyMuPDF, Pillow | für die Skripte | `pip install -r requirements.txt` |
 
-Das Farbprofil `ISOcoated_v2_300_eci.icc` liegt bei. Es stammt vom
+Das Farbprofil `template/ISOcoated_v2_300_eci.icc` liegt bei. Es stammt vom
 [European Color Initiative](https://www.eci.org) und darf frei verwendet
 werden.
 
@@ -64,10 +93,11 @@ werden.
 
 ## Wo du was einträgst
 
-Im Alltag brauchst du zwei Dateien:
+Im Alltag brauchst du zwei Dateien, beide in `inhalt/`:
 
-- **`Innenteil/angaben.typ`** — Titel, Name, Gutachter, Datum, welche Teile
-  mitkommen sollen. Ganz oben steht die wichtigste Zeile:
+- **`inhalt/angaben.typ`** — Titel, Name, Gutachter, Datum, Schlagworte für
+  die PDF-Metadaten, welche Teile mitkommen sollen. Ganz oben steht die
+  wichtigste Zeile:
 
   ```typst
   fassung: "eingereicht",   // oder "genehmigt"
@@ -77,10 +107,12 @@ Im Alltag brauchst du zwei Dateien:
   gedruckten Fassung für die Reihe um — mit allem, was daran hängt:
   Deckblatt, Erklärungen, Lebenslauf.
 
-- **`Cover/buchdaten.typ`** — Angaben für den Umschlag, vor allem die
+- **`inhalt/buchdaten.typ`** — Angaben für den Umschlag, vor allem die
   Seitenzahl des Buchblocks. Aus ihr rechnet die Vorlage die Rückenstärke.
 
-Deine Kapitel liegen als einzelne Dateien in `Innenteil/kapitel/`.
+Deine Kapitel liegen als einzelne Dateien in `inhalt/kapitel/`, deine
+Bilder in `inhalt/abbildungen/`. Ein neues Kapitel ist eine neue Datei plus
+eine Zeile in `inhalt/main.typ`.
 
 Alles Weitere steht ausführlich in **[ANLEITUNG.md](ANLEITUNG.md)** — von der
 Installation über Zotero bis zur Übergabe an die Druckerei.
@@ -97,6 +129,11 @@ Installation über Zotero bis zur Übergabe an die Druckerei.
   K-Kanal, eingebettete Ausgabebedingung, Seitenzahl durch vier teilbar.
 - **Verzeichnisse** für Abbildungen, Tabellen, Formelzeichen, Abkürzungen und
   Definitionen — alle aus dem Text erzeugt, keines von Hand gepflegt.
+- **Bildquellen am richtigen Ort**: `#bildquelle(<schlüssel>)` in der
+  Beschriftung setzt die Quelle als Fußnote auf die Seite der Abbildung —
+  im Abbildungsverzeichnis hinten erscheint sie nicht.
+- **PDF-Metadaten**: Titel, Verfasser und Schlagworte aus `inhalt/angaben.typ`
+  stehen in jeder erzeugten PDF.
 - **Mikrotypografie**: schmale geschützte Leerzeichen, echte Kapitälchen,
   Cambria Math für Formeln, Aufzählungszeichen in der Hausfarbe.
 
@@ -110,13 +147,13 @@ wie.
 ## Prüfskripte
 
 Nach jedem `.\bauen.ps1` laufen die Prüfungen automatisch mit. Einzeln
-aufrufen lassen sie sich auch:
+aufrufen lassen sie sich auch — Arbeitsverzeichnis ist `inhalt/`:
 
 ```powershell
-cd Innenteil
-python tools/pruefen.py           # Druckvorgaben: Format, Beschnitt, Farbe, Schriften
-python tools/tuhh_pruefen.py      # Formalia der TUHH
-python tools/umbruch_pruefen.py   # Hurenkinder, Schusterjungen, Trennungen
+cd inhalt
+python ../template/innenteil/tools/pruefen.py           # Druckvorgaben: Format, Beschnitt, Farbe, Schriften
+python ../template/innenteil/tools/tuhh_pruefen.py      # Formalia der TUHH
+python ../template/innenteil/tools/umbruch_pruefen.py   # Hurenkinder, Schusterjungen, Trennungen
 ```
 
 ### Werkzeuge für die Übernahme einer bestehenden Arbeit
@@ -127,14 +164,14 @@ so ist Band 000 entstanden. Für eine neu geschriebene Dissertation sind sie
 ohne Bedeutung:
 
 ```powershell
-python tools/textabdeckung.py <original.pdf>            # fehlt Text?
-python tools/fussnoten_wortlaut.py <original.pdf>       # stimmt jede Fußnote?
-python tools/fussnoten_mengen.py <original.pdf>         # fehlt oder doppelt?
-python tools/fussnote_original.py <original.pdf> 42     # Wortlaut einer Fußnote
-python tools/zitate_richtigstellen.py <original.pdf> 2  # richtige Quelle zitiert?
-python tools/abbildungen_pruefen.py <original.pdf>      # Abbildung abgeschnitten?
-python tools/aufzaehlungen_abgleichen.py <original.pdf> # Aufzählung abgegrenzt?
-python tools/absaetze_zusammenfuehren.py <original.pdf> # Absatz zerrissen?
+python ../template/innenteil/tools/textabdeckung.py <original.pdf>            # fehlt Text?
+python ../template/innenteil/tools/fussnoten_wortlaut.py <original.pdf>       # stimmt jede Fußnote?
+python ../template/innenteil/tools/fussnoten_mengen.py <original.pdf>         # fehlt oder doppelt?
+python ../template/innenteil/tools/fussnote_original.py <original.pdf> 42     # Wortlaut einer Fußnote
+python ../template/innenteil/tools/zitate_richtigstellen.py <original.pdf> 2  # richtige Quelle zitiert?
+python ../template/innenteil/tools/abbildungen_pruefen.py <original.pdf>      # Abbildung abgeschnitten?
+python ../template/innenteil/tools/aufzaehlungen_abgleichen.py <original.pdf> # Aufzählung abgegrenzt?
+python ../template/innenteil/tools/absaetze_zusammenfuehren.py <original.pdf> # Absatz zerrissen?
 ```
 
 ### Umbruch beheben, ohne den Text zu ändern
@@ -144,8 +181,8 @@ Zwei Werkzeuge beheben Umbruchprobleme selbst, **ohne den Text zu ändern** —
 erhöhte Satzkosten:
 
 ```powershell
-python tools/umbruch_heilen.py --auch-verso
-python tools/absatzumbruch_heilen.py
+python ../template/innenteil/tools/umbruch_heilen.py --auch-verso
+python ../template/innenteil/tools/absatzumbruch_heilen.py
 ```
 
 Der Wortlaut der Autorin oder des Autors bleibt dabei unangetastet.
@@ -155,15 +192,24 @@ Der Wortlaut der Autorin oder des Autors bleibt dabei unangetastet.
 ## Ordner
 
 ```
-Innenteil/       Text, Literatur, Titelei
-  angaben.typ      alle Angaben zur Arbeit
-  main.typ         Reihenfolge der Bestandteile
-  kapitel/         deine Kapitel
+inhalt/          ← deine Arbeit. Nur hier schreibst du.
+  angaben.typ      alle Angaben zur Arbeit (auch PDF-Metadaten)
+  buchdaten.typ    Angaben für den Umschlag
+  main.typ         Reihenfolge deiner Kapitel und Anhänge
+  literatur.bib    Quellen (aus Zotero)
+  kapitel/         deine Kapitel, eine Datei je Kapitel
+  anhang/          deine Anhänge
   titelei/         Vorwort, Danksagung, Kurzfassung, Abstract …
-  src/             der Satz selbst - hier musst du nichts ändern
-  tools/           Prüfskripte
-Cover/           Umschlag
-  buchdaten.typ    Titel, Verfasser, Seitenzahl
+  abbildungen/     deine Bilddateien
+template/        ← die Vorlage. Wird per git merge aktualisiert.
+  innenteil/       der Satz: Satzspiegel, Raster, Verzeichnisse, Deckblätter
+    tools/         Druckdatei, Verkleinerung, Umbruch- und Formatprüfung
+  cover/           der Umschlag: Layout, Farben, Logos, Prüfskripte
+  tools/           Gesamtdatei, Umfangsabgleich, Farbprofil
+  ISEM-Zitationsstil.csl   Zitierstil des Instituts
+  ISOcoated_v2_300_eci.icc Ausgabebedingung für den Druck
+bauen.ps1        baut alles und prüft alles (Windows)
+bauen.sh         dasselbe für macOS und Linux
 build/           die fertigen Dateien
 ```
 
@@ -181,9 +227,9 @@ auch in einer neuen Arbeit. Der Band liegt in einem eigenen, nicht
 ## Fassungen
 
 Was sich von Fassung zu Fassung ändert, steht in
-**[CHANGELOG.md](CHANGELOG.md)**. Notiere in , mit
-welcher Fassung du begonnen hast — dann ist später nachvollziehbar, warum
-ein älterer Band anders aussieht als ein neuer.
+**[CHANGELOG.md](CHANGELOG.md)**. Notiere dir, mit welcher Fassung du
+begonnen hast — dann ist später nachvollziehbar, warum ein älterer Band
+anders aussieht als ein neuer.
 
 ---
 

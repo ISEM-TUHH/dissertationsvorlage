@@ -2,7 +2,7 @@
 titel: ISEM-Dissertationsvorlage (Typst)
 zweck: Dissertation nach TUHH-Vorgaben setzen, als Buch drucken lassen und online bereitstellen
 zielgruppe: Promovierende am ISEM, auch ohne Typst-Vorkenntnisse
-stand: 2026-08-26
+stand: 2026-08-31
 ---
 
 # ISEM-Dissertationsvorlage
@@ -115,7 +115,7 @@ Umschlag und **Cambria Math** für Formeln.
 
 ### 2.5 Farbprofil
 
-`ISOcoated_v2_300_eci.icc` liegt im Projektordner und gehört dazu. Es ist die
+`template/ISOcoated_v2_300_eci.icc` liegt bei und gehört dazu. Es ist die
 Ausgabebedingung, für die WirMachenDruck produziert: Ghostscript trennt damit
 nach CMYK, und die Druckdateien tragen es als *OutputIntent* eingebettet.
 Ohne diese Datei bauen die Skripte trotzdem durch, rechnen die Farben dann
@@ -139,7 +139,7 @@ Alles bauen:
 
 ```powershell
 cd "C:\Arbeitsordner\ISEM Dissertationsvorlage Typst"
-.\bauen.ps1
+.\bauen.ps1          # unter macOS/Linux: ./bauen.sh
 ```
 
 Das dauert ein paar Sekunden und erzeugt alle PDF. Am Ende siehst du
@@ -148,36 +148,72 @@ Prüfberichte — die solltest du lesen, dazu Kapitel 7.
 Nur den Innenteil bauen, während du schreibst:
 
 ```powershell
-cd Innenteil
-typst watch main.typ ../build/Onlineversion/innenteil.pdf
+cd inhalt
+typst watch --root .. main.typ ../build/Onlineversion/innenteil.pdf
 ```
 
 `watch` baut bei jedem Speichern neu. Mit Strg+C beenden.
+
+> **Fallstrick:** Das `--root ..` ist Pflicht. Deine Hauptdatei liegt in
+> `inhalt/`, die Vorlage in `template/` — Typst darf standardmäßig aber nur
+> auf den Ordner der Hauptdatei zugreifen. `--root ..` macht das ganze
+> Repositorium zur Wurzel. Wer in VS Code den Repositoriumsordner öffnet,
+> braucht nichts weiter: Tinymist nimmt den Arbeitsbereich als Wurzel.
+
+### 3.1 Fork und Vorlagen-Updates
+
+Die Trennung in `inhalt/` (deine Arbeit) und `template/` (die Vorlage) ist
+dafür gemacht, dass du dieses Repositorium **forkst** und die Vorlage
+während der Schreibzeit aktuell halten kannst:
+
+```powershell
+git remote add vorlage https://github.com/ISEM-TUHH/dissertationsvorlage.git   # einmalig
+git fetch vorlage
+git merge vorlage/main
+```
+
+Verbesserungen an der Vorlage betreffen nur `template/` (und gelegentlich
+die Bau-Skripte und diese Anleitung) — deine Dateien in `inhalt/` bleiben
+beim Merge unberührt. Konflikte kann es nur geben, wenn du selbst in
+`template/` etwas geändert hast; genau deshalb gilt: in `template/` wird
+nichts angepasst. Fehlt dir dort etwas, mach ein Issue daraus — dann bekommt
+es jede zukünftige Arbeit.
 
 ---
 
 ## 4. Wo du was einträgst
 
-Im Alltag brauchst du **zwei Dateien**:
+Alles, was zu deiner Arbeit gehört, liegt in **`inhalt/`** — die Vorlage
+selbst in `template/`, und dort änderst du nichts. Im Alltag brauchst du
+**zwei Dateien**:
 
 | Datei | Inhalt |
 |---|---|
-| `Innenteil/angaben.typ` | alles über die Arbeit: Titel, Name, Gutachter, Fassung, welche Verzeichnisse |
-| `Cover/buchdaten.typ` | alles über das Buch: Bandnummer, Seitenzahl, Rückentext |
+| `inhalt/angaben.typ` | alles über die Arbeit: Titel, Name, Gutachter, Fassung, Schlagworte, welche Verzeichnisse |
+| `inhalt/buchdaten.typ` | alles über das Buch: Bandnummer, Seitenzahl, Rückentext |
+
+Titel, Name und Schlagworte aus `angaben.typ` landen zugleich in den
+**PDF-Metadaten** aller erzeugten Dateien — Repositorien und Suchmaschinen
+lesen sie aus.
 
 Der Text selbst steht in:
 
 ```
-Innenteil/kapitel/01_einleitung.typ      ein Kapitel je Datei
-Innenteil/anhang/A_ergaenzungen.typ
-Innenteil/titelei/vorwort.typ            Vorwort, Danksagung, Zusammenfassung …
-Innenteil/literatur.bib                  die Quellen
-Innenteil/abbildungen/                   Bilddateien
+inhalt/kapitel/01_einleitung.typ      ein Kapitel je Datei
+inhalt/anhang/A_ergaenzungen.typ
+inhalt/titelei/vorwort.typ            Vorwort, Danksagung, Zusammenfassung …
+inhalt/literatur.bib                  die Quellen
+inhalt/abbildungen/                   Bilddateien
+inhalt/main.typ                       Reihenfolge deiner Kapitel und Anhänge
 ```
+
+Ein neues Kapitel: Datei in `inhalt/kapitel/` anlegen (erste Zeile
+`#import "/template/innenteil/isem.typ": *`) und in `inhalt/main.typ` eine
+Zeile in die Kapitelliste eintragen — Titel, Kennung, Datei.
 
 ### 4.1 Die wichtigste Variable: `fassung`
 
-In `Innenteil/angaben.typ`:
+In `inhalt/angaben.typ`:
 
 ```typst
 fassung: "eingereicht",   // oder "genehmigt"
@@ -300,7 +336,7 @@ statt `black`, `white` und `luma(...)`:
 
 Der Grund: `black` ist DeviceGray, und die Trennung über das ICC-Profil macht
 daraus C 78 / M 68 / Y 58 / K 94. Feine Linien und Schrift werden damit bei
-der kleinsten Passerdifferenz unscharf. `Innenteil/tools/pruefen.py` meldet
+der kleinsten Passerdifferenz unscharf. `template/innenteil/tools/pruefen.py` meldet
 so etwas mit Seitenzahl.
 
 ### 5.2 Mikrotypografie
@@ -346,11 +382,11 @@ Datei es noch anzeigt. Deshalb wird sie weder verkleinert noch mit dem
 Umschlag zusammengefügt.
 
 Damit PDF/UA gelingt, braucht **jede Abbildung und jede Formel einen
-Alternativtext**. Fehlt er, bricht der Bau mit einer Meldung ab, die die
-Stelle nennt:
+Alternativtext** — auch einzelne Größen im Fließtext (`#mathe($m$, alt: "m")`).
+Fehlt er, bricht der Bau mit einer Meldung ab, die die Stelle nennt:
 
 ```typst
-#figure(abbildung("../abbildungen/aufbau.png", alt: "Versuchsstand mit …"),
+#figure(abbildung("aufbau.png", alt: "Versuchsstand mit …"),
         caption: [Aufbau des Versuchsstands.])
 
 #numbered-equation($ E = m c^2 $, alt: "E ist gleich m mal c hoch zwei")
@@ -365,7 +401,7 @@ die Nummer kapitelweise gezählt, Abbildungen **unterhalb**, Tabellen
 
 ```typst
 #figure(
-  abbildung("../abbildungen/aufbau.png"),
+  abbildung("aufbau.png", alt: "Versuchsstand mit …"),
   caption: [Aufbau des Versuchsstands.],
 ) <abb-aufbau>
 
@@ -378,9 +414,26 @@ die Nummer kapitelweise gezählt, Abbildungen **unterhalb**, Tabellen
 ```
 
 Verwiesen wird mit `@abb-aufbau`; Typst schreibt „Abbildung 2.1" und hält die
-Nummer beim Verschieben aktuell. `abbildung(pfad)` skaliert das Bild auf
-Satzbreite und begrenzt die Höhe, damit es nicht über den Satzspiegel läuft.
-Abgesetzte Formeln ohne `numbered-equation` bleiben ohne Nummer.
+Nummer beim Verschieben aktuell. `abbildung(name)` sucht die Datei in
+`inhalt/abbildungen/`, skaliert das Bild auf Satzbreite und begrenzt die
+Höhe, damit es nicht über den Satzspiegel läuft. Abgesetzte Formeln ohne
+`numbered-equation` bleiben ohne Nummer.
+
+**Übernommene Abbildungen brauchen eine Quellenangabe** (das verlangt auch
+der TUHH-Leitfaden). Sie gehört mit `#bildquelle(<schlüssel>)` in die
+Beschriftung:
+
+```typst
+#figure(
+  abbildung("systemmodell.png", alt: "…"),
+  caption: [Systemmodell nach #autor[Weilkiens].#bildquelle(<weilkiens2014>)],
+) <abb-systemmodell>
+```
+
+Auf der Seite der Abbildung entsteht daraus die gewohnte Fußnote des
+Zitierstils — die Quelle steht also dort, wo die Abbildung steht. Im
+Abbildungsverzeichnis hinten wird sie automatisch unterdrückt: dort steht
+nur die Beschriftung, keine Quelle und keine Fußnote.
 
 Fachbegriffe lassen sich mit `definitionsbox[…]` hervorheben. Für eine fette
 Gliederungszeile, die weder ins Inhaltsverzeichnis noch in die Gliederung
@@ -393,8 +446,8 @@ nur als Bild vorliegen, setzt `formelbild("pfad", alt: "…")`.
 ## 6. Literatur und Zotero
 
 Die Vorlage zitiert nach dem **ISEM-Zitationsstil**
-(`Innenteil/ISEM-Zitationsstil.csl`, identisch mit dem Zotero-Stil
-„TUHH-ISEM"). Die Quellen stehen in `Innenteil/literatur.bib`.
+(`template/ISEM-Zitationsstil.csl`, identisch mit dem Zotero-Stil
+„TUHH-ISEM"). Die Quellen stehen in `inhalt/literatur.bib`.
 
 ### 6.1 Zotero mit der Vorlage verbinden
 
@@ -412,7 +465,7 @@ Der bequeme Weg ist ein Add-on, das die `.bib`-Datei automatisch aktuell hält:
 
 3. **Sammlung exportieren.** Rechtsklick auf deine Sammlung →
    *Export Collection…* → Format **Better BibTeX**, Haken bei
-   **Keep updated** → speichern als `Innenteil/literatur.bib`.
+   **Keep updated** → speichern als `inhalt/literatur.bib`.
 
    Der Haken ist der entscheidende Teil: Zotero schreibt die Datei ab jetzt
    bei jeder Änderung neu. Du musst nie wieder exportieren.
@@ -443,10 +496,10 @@ Der bequeme Weg ist ein Add-on, das die `.bib`-Datei automatisch aktuell hält:
 
 | Skript | prüft |
 |---|---|
-| `Cover/tools/pruefen.py` | Umschlagformat, Beschnitt, CMYK, Schrifteinbettung |
-| `Innenteil/tools/pruefen.py` | Innenteilformat, Beschnitt, Sicherheitsabstand, 7 mm Falzkante, Bogenteilung, Bildauflösung, CMYK, reines K, OutputIntent, Lesezeichen |
-| `Innenteil/tools/tuhh_pruefen.py` | die TUHH-Formalia am fertigen PDF |
-| `Innenteil/tools/umbruch_pruefen.py` | Hurenkinder, Schusterjungen, Trennungen über den Seitenumbruch, Trennungsleitern, kurze Schlusszeilen, Bildauflösung |
+| `template/cover/tools/pruefen.py` | Umschlagformat, Beschnitt, CMYK, Schrifteinbettung |
+| `template/innenteil/tools/pruefen.py` | Innenteilformat, Beschnitt, Sicherheitsabstand, 7 mm Falzkante, Bogenteilung, Bildauflösung, CMYK, reines K, OutputIntent, Lesezeichen |
+| `template/innenteil/tools/tuhh_pruefen.py` | die TUHH-Formalia am fertigen PDF |
+| `template/innenteil/tools/umbruch_pruefen.py` | Hurenkinder, Schusterjungen, Trennungen über den Seitenumbruch, Trennungsleitern, kurze Schlusszeilen, Bildauflösung |
 
 Für einen aus dem Druck zurückgelesenen Band (siehe `Band000-Bursac/`) kommen
 vier weitere Werkzeuge dazu. Sie werden nicht bei jedem Bau aufgerufen,
@@ -458,9 +511,9 @@ sondern von Hand, solange der Text noch nachgearbeitet wird:
 | `textreste_pruefen.py` | findet Narben der Rückwandlung in der Quelle: abgeschnittene Sätze, Bildbeschriftungen im Fließtext, Definitionen ohne Kasten, offene TODO |
 | `trennungen_heilen.py` | fügt Wörter zusammen, die ein Absatzumbruch zerrissen hat — mit oder ohne Leerzeichen, je nachdem, was im Original steht |
 | `bildreste_entfernen.py` | löscht Absätze, die keine Sätze sind: Beschriftungen aus Grafiken, die im Text gelandet sind |
-| `tools/umfang_pruefen.py` | ob Cover und Innenteil dieselbe Seitenzahl annehmen |
+| `template/tools/umfang_pruefen.py` | ob Cover und Innenteil dieselbe Seitenzahl annehmen |
 
-Dazu kommt `Innenteil/tools/verkleinern.py`: Es fasst gleiche Bilder zusammen
+Dazu kommt `template/innenteil/tools/verkleinern.py`: Es fasst gleiche Bilder zusammen
 und begrenzt die Auflösung auf die von der Druckerei geforderten 300 dpi.
 Bei einer Arbeit mit vielen Abbildungen macht das den Unterschied zwischen
 einer handlichen und einer unverschickbaren Datei — im Testband von
@@ -506,12 +559,12 @@ Seitenzahl:
 Rücken = Seiten / 2 × Blattdicke + 2 × Graupappe
 ```
 
-Deshalb trägst du die Seitenzahl in `Cover/buchdaten.typ` ein, und deshalb
-prüft `tools/umfang_pruefen.py`, ob sie noch stimmt. Solange du schreibst,
+Deshalb trägst du die Seitenzahl in `inhalt/buchdaten.typ` ein, und deshalb
+prüft `template/tools/umfang_pruefen.py`, ob sie noch stimmt. Solange du schreibst,
 wird sie nicht stimmen — das ist normal. Vor dem Druck muss sie stimmen.
 
 **Für online ist es umgekehrt.** Da will niemand zwei Dateien. Deshalb baut
-`tools/gesamt.py` eine Datei: Titelseite, Innenteil, Rückseite — mit den
+`template/tools/gesamt.py` eine Datei: Titelseite, Innenteil, Rückseite — mit den
 Lesezeichen des Innenteils und den richtigen Seitenlabels. Der Buchrücken
 entfällt dabei, denn ein PDF hat keinen.
 
@@ -527,14 +580,14 @@ Was WirMachenDruck bekommt:
 
 Grundlage ist das Datenblatt `buecher_mit_hardcover_dina5_hoch_44_1.pdf`
 (Seite 2 beschreibt die Inhaltsseiten). Was dort steht, prüft
-`Innenteil/tools/pruefen.py` Punkt für Punkt: Datenformat 154 × 216 mm,
+`template/innenteil/tools/pruefen.py` Punkt für Punkt: Datenformat 154 × 216 mm,
 Endformat 148 × 210 mm, 3 mm Beschnitt, 5 mm Sicherheitsabstand, 7 mm
 Falzkante am Bund der ersten und letzten Blätter, CMYK, mindestens 300 dpi,
 eingebettete Schriften.
 
 Vorher prüfen:
 
-- [ ] `seiten` in `Cover/buchdaten.typ` stimmt mit dem Innenteil überein
+- [ ] `seiten` in `inhalt/buchdaten.typ` stimmt mit dem Innenteil überein
 - [ ] Seitenzahl ist durch 4 teilbar — die Druckdatei füllt selbst auf, im
       Cover muss die aufgefüllte Zahl stehen
 - [ ] Alle Prüfskripte laufen ohne `[!!]` durch
@@ -556,11 +609,12 @@ Vorher prüfen:
 |---|---|---|
 | `typst: command not found` | PowerShell kennt den neuen Pfad nicht | Fenster neu öffnen |
 | PDF sieht nach der falschen Schrift aus | Cambria fehlt, Typst nimmt still einen Ersatz | `typst fonts \| Select-String Cambria` |
-| `error: unknown variable: definitionsbox` | Kapiteldatei ohne Import-Zeile | erste Zeile `#import "../src/isem.typ": *` |
+| `error: unknown variable: definitionsbox` | Kapiteldatei ohne Import-Zeile | erste Zeile `#import "/template/innenteil/isem.typ": *` |
 | Literaturverweis erscheint als `@bursac2023` | Schlüssel steht nicht in `literatur.bib` | Zotero-Export prüfen |
 | Umschlag passt nicht ums Buch | `seiten` veraltet | `.\bauen.ps1`, Umfangsbericht lesen |
 | Änderung wirkt nicht | `typst watch` läuft noch mit alter Datei | Strg+C, neu starten |
-| Abbildung wird nicht gefunden | Pfad ist relativ zur **Kapiteldatei** | `image("../abbildungen/bild.png")` |
+| `file access denied` oder Vorlage nicht gefunden | `typst` ohne `--root ..` gestartet | `typst watch --root .. main.typ …` aus `inhalt/` |
+| Abbildung wird nicht gefunden | Datei liegt nicht in `inhalt/abbildungen/` | `abbildung("bild.png", alt: "…")` sucht dort; anderer Ort: `"/inhalt/…/bild.png"` |
 
 ---
 
@@ -569,8 +623,9 @@ Vorher prüfen:
 `Band000-Bursac/` ist ein vollständiger Band der Reihe, aus dem gedruckten
 Original zurückgelesen: 217 Seiten, 90 Abbildungen, 9 Tabellen, rund 1000
 Fußnoten. Er ist das Belegexemplar der Vorlage — was dort durchläuft, läuft
-auch in einer neuen Arbeit. Er baut mit demselben `.\bauen.ps1` und
-denselben Prüfskripten.
+auch in einer neuen Arbeit. Er trägt seine eigene Kopie der Bau- und
+Prüfskripte (noch in der älteren Ordnerstruktur mit `Innenteil/` und
+`Cover/`) und baut mit seinem eigenen `.\bauen.ps1`.
 
 Er ist zugleich der beste Ort, um zu sehen, wie die Prüfskripte an echtem
 Text arbeiten: `umbruch_pruefen.py` meldet dort 143 Stellen — Hurenkinder,
@@ -580,34 +635,40 @@ Trennungen am Seitenende und Abbildungen mit 274 statt 300 dpi.
 
 ```
 ANLEITUNG.md                  dieses Dokument
-bauen.ps1                     baut alles und prüft alles
-ISOcoated_v2_300_eci.icc      Ausgabebedingung für den Druck
-buecher_mit_hardcover_...pdf  Datenblatt der Druckerei
-tools/farbprofil.py           trägt die Ausgabebedingung in die Druckdateien ein
-tools/gesamt.py               Umschlag + Innenteil → eine Online-Datei
-tools/umfang_pruefen.py       gleicht Seitenzahl gegen Cover ab
-build/                        die Online-Gesamtdatei
+bauen.ps1                     baut alles und prüft alles (Windows)
+bauen.sh                      dasselbe für macOS und Linux
+build/                        die fertigen Dateien
 
-Innenteil/
-  angaben.typ                 ← hier trägst du ein
-  main.typ                    Aufbau und Reihenfolge der Arbeit
+inhalt/                       ← DEINE Arbeit. Nur hier schreibst du.
+  angaben.typ                 ← hier trägst du ein (auch PDF-Metadaten)
+  buchdaten.typ               ← Angaben für den Umschlag
+  main.typ                    Reihenfolge deiner Kapitel und Anhänge
   literatur.bib               Quellen (aus Zotero)
-  ISEM-Zitationsstil.csl      Zitierstil des Instituts
   kapitel/                    ← hier schreibst du
   anhang/  titelei/  abbildungen/
-  src/isem.typ                das Layout: Satzspiegel, Raster, Farben, Verzeichnisse
-  src/tuhh.typ                Deckblätter und Fassungsregeln
-  src/bezeichner.typ          deutsche und englische Bezeichnungen
-  tools/                      Druckdatei, Verkleinerung, Umbruch- und Formatprüfung
-  build/                      die fertigen PDF
 
-Cover/
-  buchdaten.typ               ← hier trägst du ein
-  COVER.md                    Details zum Umschlag
-  umschlag.typ  bildschirm.typ
-  src/                        Layout, Farben, Logos
-  assets/                     Designvorlage, Datenblatt, ISEM-Logo
-  tools/  build/
+template/                     ← die Vorlage. Wird per git merge aktualisiert.
+  bauen.ps1  bauen.sh         die eigentliche Baulogik
+  ISEM-Zitationsstil.csl      Zitierstil des Instituts
+  ISOcoated_v2_300_eci.icc    Ausgabebedingung für den Druck
+  buecher_mit_hardcover_...pdf  Datenblatt der Druckerei
+  innenteil/
+    isem.typ                  das Layout: Satzspiegel, Raster, Farben, Verzeichnisse
+    tuhh.typ                  Deckblätter und Fassungsregeln
+    buch.typ                  Zusammenbau: Titelei, Hauptteil, Verzeichnisse
+    bezeichner.typ            deutsche und englische Bezeichnungen
+    impressum.typ             Schmutztitel und Impressum der Reihe
+    tools/                    Druckdatei, Verkleinerung, Umbruch- und Formatprüfung
+  cover/
+    COVER.md                  Details zum Umschlag
+    umschlag.typ  bildschirm.typ
+    src/                      Layout, Farben, Logos
+    assets/                   Designvorlage, Datenblatt, ISEM-Logo
+    tools/
+  tools/
+    farbprofil.py             trägt die Ausgabebedingung in die Druckdateien ein
+    gesamt.py                 Umschlag + Innenteil → eine Online-Datei
+    umfang_pruefen.py         gleicht Seitenzahl gegen Cover ab
 ```
 
 ---
@@ -623,7 +684,7 @@ Ausgenommen sind vier Bestandteile, die uns nicht gehören oder eine eigene
 Lizenz tragen: der Zitierstil, die Logos von TUHH und ISEM, das Farbprofil
 der ECI und die Schrift Cambria. Die Einzelheiten stehen in `NOTICE`.
 
-Das Layout in `Innenteil/src/isem.typ` ist für diese Reihe geschrieben. Es
+Das Layout in `template/innenteil/isem.typ` ist für diese Reihe geschrieben. Es
 bildet eine ältere, in Word gesetzte Referenzfassung nach: Satzspiegel,
 Schriftgrade, Abstände, Kopfzeilen und Beschriftungen sind aus jener Datei
 ausgemessen und im Kopf des Moduls dokumentiert.

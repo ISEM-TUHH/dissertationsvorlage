@@ -14,7 +14,7 @@ Was nicht unter CC0 fällt
 Vier Bestandteile gehören nicht uns oder tragen eine eigene Lizenz. Sie sind
 von der Freigabe ausgenommen:
 
-1. ISEM-Zitationsstil.csl (auch Innenteil/ISEM-Zitationsstil.csl)
+1. template/ISEM-Zitationsstil.csl
    Abgeleitet vom APA-Stil aus dem CSL-Verzeichnis und deshalb weiterhin
    unter Creative Commons Attribution-ShareAlike 3.0. Die Lizenz steht im
    Kopf der Datei selbst. Wer den Stil ändert und weitergibt, muss die
@@ -22,13 +22,13 @@ von der Freigabe ausgenommen:
    https://creativecommons.org/licenses/by-sa/3.0/
 
 2. Die Logos der TUHH und des ISEM
-   Cover/assets/isem-logo.svg, Cover/src/logos.typ und ihre Verwendung im
+   template/cover/assets/isem-logo.svg, template/cover/src/logos.typ und ihre Verwendung im
    Umschlag. Es sind Kennzeichen der Technischen Universität Hamburg und
    ihres Instituts. CC0 gibt ausdrücklich keine Marken- oder
    Kennzeichenrechte weiter. Wer die Vorlage für eine eigene Reihe nutzt,
    ersetzt sie durch die eigenen.
 
-3. ISOcoated_v2_300_eci.icc
+3. template/ISOcoated_v2_300_eci.icc
    Farbprofil der European Color Initiative, unter deren eigenen Bedingungen
    frei nutzbar und unverändert weiterzugeben. https://www.eci.org
 

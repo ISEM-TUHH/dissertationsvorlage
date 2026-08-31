@@ -1,15 +1,15 @@
 # Ergebnisse entstehen beim Bauen und gehören nicht in die Versionsverwaltung.
-# `.\bauen.ps1` erzeugt sie in wenigen Sekunden neu.
+# `.\bauen.ps1` (bzw. `./bauen.sh`) erzeugt sie in wenigen Sekunden neu.
 build/
-Cover/build/
-Innenteil/build/
+inhalt/build/
+template/cover/build/
 
 # Unterlagen Dritter. Sie werden nur zum Nachmessen gebraucht, von keinem
 # Skript gelesen und hier nicht weitergegeben:
 #   Diss_Artur_Krause_ISEM-Vorlage.pdf        Referenzfassung aus Word
 #   buecher_mit_hardcover_dina5_hoch_44_1.pdf Datenblatt von WIRmachenDRUCK
 Diss_Artur_Krause_ISEM-Vorlage.pdf
-buecher_mit_hardcover_dina5_hoch_44_1.pdf
+template/buecher_mit_hardcover_dina5_hoch_44_1.pdf
 
 # Der Beispielband liegt in einem eigenen Repository.
 Band000-Bursac/
@@ -18,4 +18,4 @@ __pycache__/
 *.pyc
 
 # Datenblatt der Druckerei, auch als Kopie im Umschlagordner.
-Cover/assets/datenblatt-wirmachendruck.pdf
+template/cover/assets/datenblatt-wirmachendruck.pdf
