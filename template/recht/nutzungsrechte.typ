@@ -59,9 +59,7 @@
 
 Dissertationen sind urheberrechtlich geschützte Werke (§§ 1, 2 UrhG).
 Urheber sind allein die Promovierenden (§ 7 UrhG); das Urheberrecht ist
-nicht übertragbar (§ 29 Abs. 1 UrhG). Betreuung oder ein
-Beschäftigungsverhältnis an der TUHH ändern daran nichts — für
-wissenschaftliche Werke greift § 43 UrhG nicht.
+nicht übertragbar (§ 29 Abs. 1 UrhG).
 
 == 2. Erfindungen und Patente
 
