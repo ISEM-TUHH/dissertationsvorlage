@@ -631,9 +631,10 @@
 #let chapter = kapitel
 
 /// Inhaltsverzeichnis im Zuschnitt der Referenz: Ebene 1 fett, Punktlinie,
-/// Seitenzahl rechtsbuendig.
+/// Seitenzahl rechtsbuendig. Es fuehrt sich nicht selbst auf
+/// (verzeichnet: false), bleibt aber als PDF-Lesezeichen erhalten.
 #let contents-page(titel: "Inhaltsverzeichnis") = [
-  #front-heading(titel, verzeichnet: true)
+  #front-heading(titel, verzeichnet: false)
   #context {
     let eintraege = query(selector(heading)).filter(it => it.outlined and it.level <= 3)
     // Auch das Verzeichnis steht auf dem Raster: jede Zeile ein Schritt,
@@ -686,6 +687,11 @@
   // hier.
   #im-verzeichnis.update(true)
   #context {
+    // Sicherheitsnetz fuer Beschriftungen mit rohen Zitaten oder eigenen
+    // Fusznoten: beim erneuten Setzen im Verzeichnis wuerde der Notenstil
+    // daraus wieder Fusznoten erzeugen. Hier werden alle unterdrueckt -
+    // die Quelle steht auf der Seite der Abbildung, nicht im Verzeichnis.
+    show footnote: it => none
     let eintraege = query(figure.where(kind: art)).filter(f => f.caption != none)
     if eintraege.len() == 0 [
       #emph[Noch keine Einträge.]
