@@ -601,6 +601,26 @@ Vorher prüfen:
       überein (sonst in `bund:` direkt eintragen)
 - [ ] **Digitale Vorprüfung beim Prüfungsamt** — seit August 2026 verpflichtend
       **vor** dem Druck, verhindert Fehldrucke
+- [ ] **Nutzungsrechtserklärung unterschrieben** — siehe 9.1
+
+### 9.1 Rechte und Nutzungsrechtserklärung
+
+Das Urheberrecht an der Dissertation liegt beim Verfasser und ist nicht
+übertragbar (§ 29 UrhG) — deshalb steht im Impressum `© <Name>`, nie
+`© ISEM`. Damit das Institut den Band drucken, vertreiben und online
+stellen darf, räumt der Verfasser ihm ein einfaches Nutzungsrecht ein
+(§ 31 UrhG). Die Vorlage bringt dafür ein Informationsblatt samt
+unterschreibbarer Erklärung mit, nach dem Vorbild des TUHH-Blatts
+„Abschlussarbeiten und Schutzrechte":
+
+```powershell
+typst compile --root . template/recht/nutzungsrechte.typ build/nutzungsrechte.pdf
+```
+
+Name, Titel, Band und Betreuung kommen automatisch aus
+`inhalt/angaben.typ`. Ausdrucken, unterschreiben, im Institut ablegen.
+Das Dokument ist eine Arbeitshilfe, keine Rechtsberatung — verbindliche
+Auskünfte gibt das Justiziariat der TUHH.
 
 > **Fallstrick Rückenstärke:** Die Blattdicke 0,104 mm ist aus der
 > Herstellerangabe zurückgerechnet (204 Seiten → 15 mm). Ob WirMachenDruck
