@@ -181,7 +181,8 @@ def main():
     buchblock_schlieszen(ziel)
     beschnitt_anlegen(ziel)
     ausgabebedingung_eintragen(ziel)
-    lesezeichen_anzeigen(ziel)
+    # Druckkontrolle am Bildschirm: Doppelseiten, erste Seite rechts.
+    lesezeichen_anzeigen(ziel, layout="TwoPageRight")
     print("  geschrieben: %s" % ziel)
 
 

@@ -85,11 +85,14 @@ def main():
         print("keine Verkleinerung möglich, Datei bleibt bei %.1f MB"
               % (vorher / 1048576))
 
-    # Seitenlabels zurückschreiben und die Lesezeichen beim Öffnen anzeigen.
+    # Seitenlabels zurückschreiben, Lesezeichen beim Öffnen anzeigen und
+    # einseitig-fortlaufend darstellen - die Onlinefassung hat keine
+    # Vakatseiten, eine Doppelseitenansicht ergaebe falsche Paare.
     d = fitz.open(pfad)
     if labels:
         d.set_page_labels(labels)
     d.set_pagemode("UseOutlines")
+    d.set_pagelayout("OneColumn")
     d.save(pfad, incremental=True, encryption=fitz.PDF_ENCRYPT_KEEP)
     d.close()
 

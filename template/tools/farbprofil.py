@@ -43,12 +43,17 @@ def profilpfad(start=None):
     return None
 
 
-def lesezeichen_anzeigen(pfad):
+def lesezeichen_anzeigen(pfad, layout=None):
     """Oeffnet der Reader die Datei, zeigt er die Lesezeichen an
-    (/PageMode /UseOutlines)."""
+    (/PageMode /UseOutlines). layout setzt zusaetzlich die Seitenansicht:
+    "OneColumn" = einseitig fortlaufend (Onlinefassung ohne Vakatseiten),
+    "TwoPageRight" = Doppelseiten mit rechter Erstseite (Druckkontrolle).
+    """
     d = fitz.open(pfad)
     try:
         d.set_pagemode("UseOutlines")
+        if layout:
+            d.set_pagelayout(layout)
         d.saveIncr()
     finally:
         d.close()

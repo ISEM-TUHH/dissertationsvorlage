@@ -10,7 +10,7 @@ Was das Skript leistet:
   - hängt die Titelseite (U1) vorn und die Rückseite (U4) hinten an
   - übernimmt die Lesezeichen des Innenteils und verschiebt sie um die
     vorangestellte Seite
-  - setzt Dokumentsprache, Doppelseiten-Ansicht und Titelanzeige
+  - setzt Dokumentsprache, Leseansicht (einseitig fortlaufend) und Titelanzeige
   - setzt PDF-Seitenlabels, damit der Reader dieselbe Seitenzahl anzeigt,
     die auch gedruckt auf der Seite steht: Umschlag ohne Nummer, Titelei
     römisch, Hauptteil arabisch ab 1
@@ -53,17 +53,20 @@ def main():
     neu += [[1, "Rückseite", ziel.page_count]]
     ziel.set_toc(neu)
 
-    # Seitenlabels
-    #   Seite 1                      Umschlag, ohne Nummer
-    #   Titelei                      römisch, beginnt bei i
-    #   ab der ersten Kapitelseite   arabisch, beginnt bei 1
-    #   letzte Seite                 Umschlag, ohne Nummer
+    # Seitenlabels: die Labels des Innenteils stammen aus Typst und stimmen
+    # 1:1 mit dem Aufdruck ueberein (ungezaehlte Titelblaetter, Titelei
+    # gross-roemisch, Hauptteil arabisch). Sie werden nur um die
+    # vorangestellte Umschlagseite verschoben; U1 und U4 bekommen eigene
+    # Labels ohne Nummer im Buch.
     labels = [{"startpage": 0, "prefix": "U", "style": "D", "firstpagenum": 1}]
-    # Grosz-roemisch wie gedruckt - die PDF-Anzeige muss 1:1 dem Aufdruck
-    # entsprechen.
-    labels.append({"startpage": 1, "style": "R", "firstpagenum": 1})
-    if erste_kapitelseite is not None:
-        labels.append({"startpage": erste_kapitelseite, "style": "D", "firstpagenum": 1})
+    for l in innen.get_page_labels():
+        l = dict(l)
+        # PyMuPDF liest aus Typst-Dateien faelschlich "/Type /PageLabel"
+        # als Praefix "ageLabel" - das ist keines.
+        if l.get("prefix") == "ageLabel":
+            l["prefix"] = ""
+        l["startpage"] += 1
+        labels.append(l)
     labels.append({"startpage": ziel.page_count - 1, "prefix": "U", "style": "D",
                    "firstpagenum": 4})
     ziel.set_page_labels(labels)
@@ -76,30 +79,32 @@ def main():
         "producer": "Typst",
     })
 
-    # Dokumentsprache und Leseansicht. `TwoPageRight` oeffnet die Datei als
-    # Doppelseiten mit ungerader Seite rechts - so, wie das Buch aufgeschlagen
-    # daliegt. `DisplayDocTitle` zeigt den Titel in der Fensterleiste statt
-    # des Dateinamens.
+    # Dokumentsprache und Leseansicht. Die Onlinefassung hat keine
+    # Vakatseiten - sie wird einseitig fortlaufend geoeffnet (OneColumn,
+    # unten per set_pagelayout). `DisplayDocTitle` zeigt den Titel in der
+    # Fensterleiste statt des Dateinamens.
     katalog = ziel.pdf_catalog()
     sprache = innen.xref_get_key(innen.pdf_catalog(), "Lang")
     if sprache[0] != "null":
         ziel.xref_set_key(katalog, "Lang", sprache[1])
     else:
         ziel.xref_set_key(katalog, "Lang", "(de-DE)")
-    ziel.xref_set_key(katalog, "PageLayout", "/TwoPageRight")
     ziel.xref_set_key(katalog, "PageMode", "/UseOutlines")
     ziel.xref_set_key(katalog, "ViewerPreferences", "<< /DisplayDocTitle true >>")
 
     os.makedirs("build", exist_ok=True)
     ziel.set_pagemode("UseOutlines")
+    ziel.set_pagelayout("OneColumn")
     ziel.save(ZIEL, garbage=4, deflate=True)
 
     print("geschrieben: %s" % ZIEL)
     print("  %d Seiten (1 Titelseite + %d Innenteil + 1 Rückseite)"
           % (ziel.page_count, innen.page_count))
     print("  %d Lesezeichen" % len(neu))
+    arabisch = next((l["startpage"] + 1 for l in labels[1:-1]
+                     if l.get("style") == "D" and not l.get("prefix")), None)
     print("  Seitenlabels: Umschlag ohne Nummer, Titelei römisch, "
-          "Hauptteil arabisch ab PDF-Seite %s" % (erste_kapitelseite + 1))
+          "Hauptteil arabisch ab PDF-Seite %s" % arabisch)
 
 
 main()
