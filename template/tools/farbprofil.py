@@ -54,6 +54,16 @@ def lesezeichen_anzeigen(pfad, layout=None):
         d.set_pagemode("UseOutlines")
         if layout:
             d.set_pagelayout(layout)
+        # Nebenbei die Seitenlabels normalisieren: PyMuPDF liest aus
+        # Typst-Dateien faelschlich "/Type /PageLabel" als Praefix
+        # "ageLabel". Acrobat zeigt beides richtig an, aber die eigenen
+        # Pruefwerkzeuge lesen sonst Unsinn.
+        labels = d.get_page_labels()
+        if any(l.get("prefix") == "ageLabel" for l in labels):
+            for l in labels:
+                if l.get("prefix") == "ageLabel":
+                    l["prefix"] = ""
+            d.set_page_labels(labels)
         d.saveIncr()
     finally:
         d.close()
