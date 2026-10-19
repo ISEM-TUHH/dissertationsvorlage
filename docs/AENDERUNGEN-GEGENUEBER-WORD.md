@@ -1,7 +1,7 @@
 ---
 titel: Änderungen gegenüber der Word-Vorlage
 zweck: nachvollziehbar machen, was am Satz geändert wurde und warum
-stand: 2026-08-29
+stand: 2026-10-19
 ---
 
 # Vom Word-Satz zum Reihenband
@@ -27,13 +27,13 @@ Menüpfade nach Word für Microsoft 365, deutsche Oberfläche.
 Fünfzehn Punkte, zusammen an einem Nachmittag erledigt. Sie machen den
 größten Teil des Unterschieds aus.
 
-### Gegenüberliegende Seitenränder, innen 14 mm, außen 15 mm
+### Gegenüberliegende Seitenränder, innen 18 mm, außen 11 mm
 
-Ein gebundenes Buch verschluckt am Bund einige Millimeter. Der Bundsteg muss
-deshalb breiter sein als der Außensteg, und beides muss sich seitenweise
-spiegeln. Für die Bildschirmfassung setzen wir dagegen symmetrisch — dort
-gibt es keinen Bund, und eine wandernde Spalte wirkt beim Blättern am Monitor
-nur unruhig.
+Ein gebundenes Buch verschluckt am Bund einige Millimeter. Der Bundsteg ist
+deshalb breiter als der Außensteg, und beides spiegelt sich seitenweise. Die
+Maße selbst sind die der Word-Fassung. Für die Bildschirmfassung setzen wir
+dagegen symmetrisch — dort gibt es keinen Bund, und eine wandernde Spalte
+wirkt beim Blättern am Monitor nur unruhig.
 
 **In Word:** `Layout → Seitenränder → Benutzerdefinierte Seitenränder`, unter
 „Mehrere Seiten“ *Gegenüberliegende Seiten* wählen; die Felder heißen dann
@@ -190,9 +190,11 @@ kurz vor der Abgabe.
 
 ### Registerhaltiger Satz
 
-Alle Zeilen liegen auf einem Raster von 12,9 pt, sodass Vorder- und Rückseite
-eines Blattes auf gleicher Höhe stehen. Im Buch scheint das Papier durch; ohne
-Register sieht man ein leichtes Zittern hinter dem Text.
+Die Zeilen des Fließtextes liegen auf einem Raster von 12,9 pt, sodass Vorder-
+und Rückseite eines Blattes auf gleicher Höhe stehen. Im Buch scheint das
+Papier durch; ohne Register sieht man ein leichtes Zittern hinter dem Text.
+Ausgenommen sind die Überschriften: Sie behalten die Abstände der
+Word-Fassung, der Text darunter rückt entsprechend vom Raster ab.
 
 | Maß | Wert |
 |---|---|

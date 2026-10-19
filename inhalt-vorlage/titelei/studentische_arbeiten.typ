@@ -1,10 +1,8 @@
-// Einfache Auflistung der im Rahmen dieser Arbeit betreuten studentischen
-// Arbeiten, analog zu den Eintraegen auf der Institutshomepage.
+// Die im Rahmen dieser Arbeit betreuten Abschlussarbeiten, gesetzt wie das
+// Literaturverzeichnis: je Arbeit ein Absatz, Autor und Jahr fett.
 
-Mustermann, Max: Titel der Bachelorarbeit, Bachelorarbeit, Institut für
-Smarte Entwicklung und Maschinenelemente, Technische Universität Hamburg,
-JJJJ.
+*Mustermann, M. (2025).* Titel der Bachelorarbeit. Bachelorarbeit, Institut
+für Smarte Entwicklung und Maschinenelemente, Technische Universität Hamburg.
 
-Musterfrau, Erika: Titel der Masterarbeit, Masterarbeit, Institut für
-Smarte Entwicklung und Maschinenelemente, Technische Universität Hamburg,
-JJJJ.
+*Musterfrau, E. (2026).* Titel der Masterarbeit. Masterarbeit, Institut für
+Smarte Entwicklung und Maschinenelemente, Technische Universität Hamburg.

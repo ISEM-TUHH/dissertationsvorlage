@@ -200,3 +200,75 @@
   }
   pagebreak()
 }
+
+// --- Eidesstattliche Erklaerung -------------------------------------------
+// Formular der Geschaeftsstelle des Promotionsausschusses, Wortlaut und
+// Satz wie das Word-Formular der TUHH: Logo und Anschrift im Kopf, Text in
+// Trebuchet MS 9 pt, darunter die Felder fuer Ort, Datum, Unterschrift und
+// den Namen in Blockbuchstaben. Die Positionen sind aus der Referenz
+// gemessen und beziehen sich auf die linke obere Ecke des Satzspiegels.
+#let formular-schrift = ("Trebuchet MS", "Arial")
+#let formular-logo = "/template/innenteil/assets/tuhh-logo-formular.jpg"
+
+#let eidesstattliche-erklaerung(titel: "Eidesstattliche Erklärung") = {
+  // Grundlinie -> Oberkante des Zeilenkastens (0,95 em, siehe isem.typ),
+  // gemessen ab dem Kopfsteg.
+  let zeile(grundlinie, groesze) = grundlinie - groesze * 0.95
+  let punkte(breite) = box(width: breite, repeat(justify: false, […]))
+
+  set text(font: formular-schrift, size: 9pt)
+  set par(first-line-indent: 0pt, hanging-indent: 0pt)
+
+  place(top + left, dx: 0.15pt, dy: -9.65pt, image(formular-logo, width: 80.1pt, alt: "Logo der Technischen Universität Hamburg"))
+  place(top + left, dx: 163.1pt, dy: zeile(9.35pt, 10pt), {
+    set text(size: 10pt)
+    set par(justify: false, leading: 11.6pt - 11.78pt, spacing: 11.6pt - 11.78pt)
+    strong[Geschäftsstelle des]
+    linebreak()
+    strong[Promotionsausschusses]
+    linebreak()
+    [Am Schwarzenberg-Campus 3]
+    linebreak()
+    [21073 Hamburg]
+  })
+
+  // Die Ueberschrift ist zugleich der Eintrag fuer PDF-Gliederung und
+  // Barrierefreiheit; gesetzt wird sie wie im Formular.
+  place(top + left, dy: zeile(94.25pt, 12pt), block(width: 100%, {
+    show heading: it => align(center, text(size: 12pt, weight: "regular", upper(it.body)))
+    heading(level: 1, outlined: false, numbering: none, bookmarked: true, titel)
+  }))
+
+  place(top + left, dx: 2.9pt, dy: zeile(133.85pt, 9pt), block(width: 329.5pt, {
+    set par(justify: true, leading: 10.65pt - 9pt * 1.178, spacing: 21.6pt - 9pt * 1.178)
+    [Ich erkläre hiermit an Eides Statt, dass ich die vorliegende Arbeit
+    selbständig sowie ohne unzulässige Hilfe Dritter und ohne Benutzung
+    anderer als der angegebenen Hilfsmittel angefertigt habe. Die aus anderen
+    Quellen direkt oder indirekt übernommenen Daten und Konzepte sind unter
+    Angabe der Quelle gekennzeichnet.]
+    parbreak()
+    [Insbesondere habe ich hierfür nicht die entgeltliche Hilfe von
+    Vermittlungs- bzw. Beratungsdiensten (Promotionsberater oder anderer
+    Personen) in Anspruch genommen. Niemand hat von mir unmittelbar oder
+    mittelbar geldwerte Leistungen für Arbeiten erhalten, die im Zusammenhang
+    mit dem Inhalt der vorgelegten Dissertation stehen.]
+    parbreak()
+    [Die Arbeit wurde bisher weder im In- noch im Ausland in gleicher oder
+    ähnlicher Form einer anderen Prüfungsbehörde vorgelegt.]
+    parbreak()
+    [Ich versichere an Eides Statt, dass ich nach bestem Wissen die reine
+    Wahrheit gesagt und nichts verschwiegen habe.]
+    parbreak()
+    [Vor Aufnahme der obigen Versicherung an Eides Statt wurde ich über die
+    Bedeutung der eidesstattlichen Versicherung und die strafrechtlichen
+    Folgen einer unrichtigen oder unvollständigen eidesstattlichen
+    Versicherung auf der ersten Seite belehrt.]
+  }))
+
+  place(top + left, dx: 2.9pt, dy: zeile(368.25pt, 10pt), text(size: 10pt, punkte(137.5pt)))
+  place(top + left, dx: 202.4pt, dy: zeile(368.25pt, 10pt), text(size: 10pt, punkte(110pt)))
+  place(top + left, dx: 2.9pt, dy: zeile(377.95pt, 9pt), strong[(Ort, Datum)])
+  place(top + left, dx: 202.4pt, dy: zeile(377.95pt, 9pt), strong[(Unterschrift)])
+  place(top + left, dx: 2.9pt, dy: zeile(422.65pt, 10pt), text(size: 10pt, punkte(309.5pt)))
+  place(top + left, dx: 2.9pt, dy: zeile(432.45pt, 9pt), strong[(Vollständiger Name in Blockbuchstaben)])
+}

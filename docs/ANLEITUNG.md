@@ -287,15 +287,18 @@ Inhaltsverzeichnis                         ┘  das einzige Verzeichnis vorn
 
 1  Einleitung                              ┐
 2  Stand der Forschung                     │  arabisch, beginnt neu bei 1
-3  Zusammenfassung und Ausblick            │
+3  Zusammenfassung und Ausblick            ┘
+
+Literaturverzeichnis                       ┐  römisch, setzt die Zählung
+Eigene Veröffentlichungen                  │  der Titelei fort (XVII …)
+Betreute Abschlussarbeiten                 │
+Abbildungs-, Tabellenverzeichnis           │
+Formelzeichen, Abkürzungen, Glossar        │
+KI-Erklärung                               │
+Eidesstattliche Erklärung (TUHH-Formular)  │
 Anhang (Trennseite mit Einführung)         │
   A  Erster Anhang                         │
   B  Zweiter Anhang                        │
-Literaturverzeichnis                       │  läuft arabisch weiter —
-Studentische Arbeiten im Rahmen der Arbeit │  kein dritter Nummernkreis
-Abbildungs-, Tabellenverzeichnis           │
-Formelzeichen, Abkürzungen                 │
-KI-Erklärung, Eidesstattliche Erklärung    │
 Lebenslauf                                 ┘
 ```
 
@@ -310,6 +313,19 @@ mit_motto: false,
 mit_formelzeichen: true,
 ```
 
+Eigene Veröffentlichungen (`titelei/eigene_veroeffentlichungen.typ`) und
+betreute Abschlussarbeiten (`titelei/studentische_arbeiten.typ`) werden wie
+das Literaturverzeichnis gesetzt: je Eintrag ein Absatz, Autor und Jahr fett.
+
+```typst
+*Mustermann, M., & Bursac, N. (2026).* Titel des Artikels. _Zeitschrift_, …
+```
+
+Die eidesstattliche Erklärung ist das Formular der Geschäftsstelle des
+Promotionsausschusses mit Logo und festem Wortlaut. Sie steht in der Vorlage
+(`template/innenteil/tuhh.typ`), nicht im Inhaltsordner — es gibt dort nichts
+auszufüllen außer der Unterschrift auf dem Ausdruck.
+
 ### 5.1 Wie der Satz aufgebaut ist
 
 Der Innenteil ist als Buch gesetzt, nicht als Bericht:
@@ -318,16 +334,18 @@ Der Innenteil ist als Buch gesetzt, nicht als Bericht:
 |---|---|---|
 | Format | 148 × 210 mm (A5) | Endformat laut Datenblatt |
 | Satzspiegel | 119 × 173 mm, 38 Zeilen | 74 Zeichen je Zeile — im Optimum für Blocksatz |
-| Bundsteg / Außensteg | 14 / 15 mm, gespiegelt | außen breiter als innen: die Doppelseite wirkt als Einheit, der Daumen hat Platz. 14 mm Bund sind doppelt so viel wie die 7 mm Falzkante des Hardcovers |
-| Kopfsteg / Fußsteg | 16,85 / 20,1 mm | erste Grundlinie auf 20,2 mm |
+| Bundsteg / Außensteg | 18 / 11 mm, gespiegelt | wie in der Word-Referenz: der breite Bund gleicht aus, was das gebundene Buch am Falz verschluckt (7 mm Falzkante beim Hardcover) |
+| Kopfsteg / Fußsteg | 16 / 20,95 mm | erste Grundlinie auf 19,35 mm, wie in der Referenz |
 | Grundschrift | Cambria 10 pt | |
 | Zeilenschritt | 12,9 pt | Grundlinienraster |
 | Absätze | 1 em Einzug, kein Abstand | klassischer deutscher Buchsatz; nach Überschriften und Abbildungen entfällt der Einzug |
 
-**Registerhaltigkeit.** Alle senkrechten Abstände sind Vielfache von 12,9 pt.
-Dadurch liegen die Grundlinien auf jeder Seite — und damit auch auf Vorder-
-und Rückseite eines Blattes — genau übereinander. Sonst scheinen die Zeilen
-der Rückseite zwischen den Zeilen der Vorderseite durch.
+**Registerhaltigkeit.** Der Fließtext steht auf einem Raster von 12,9 pt, auch
+Abbildungen, Formeln und Kästen belegen volle Rasterzeilen. Nur die
+Überschriften halten die Abstände der Word-Referenz: Kapitelüberschriften
+stehen auf Grundlinie 122,5 pt mit 27,5 pt bis zum Text, unter Abschnitts-
+überschriften folgen 19,5 pt. Wo eine Überschrift steht, verschiebt sich der
+Text darunter deshalb um einige Punkt gegen das Raster — wie in Word.
 
 Wer eigene Bausteine baut, setzt sie in `raster-block(...)`; der rundet die
 Höhe auf volle Zeilen auf, damit der Text darunter wieder im Raster steht:
@@ -446,7 +464,10 @@ Zitierstils — die Quelle steht also dort, wo die Abbildung steht. Im
 Abbildungsverzeichnis hinten wird sie automatisch unterdrückt: dort steht
 nur die Beschriftung, keine Quelle und keine Fußnote.
 
-Fachbegriffe lassen sich mit `definitionsbox[…]` hervorheben. Für eine fette
+Fachbegriffe lassen sich mit `definitionsbox[Begriff][Ein Begriff ist …]`
+hervorheben: kräftige Petrol-Linie links, keine Titelzeile, der Begriff
+erscheint im Satz fett in Petrol, wo immer er im Kasten vorkommt. Der erste
+Teil (`[Begriff]`) wird nicht gedruckt, sondern füllt das Glossar. Für eine fette
 Gliederungszeile, die weder ins Inhaltsverzeichnis noch in die Gliederung
 gehört, gibt es `zwischentitel[…]` — eine echte Überschrift wäre dort falsch,
 weil sie eine Lücke in die Ebenenfolge risse und PDF/UA abbräche. Formeln, die

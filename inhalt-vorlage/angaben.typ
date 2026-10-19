@@ -79,7 +79,8 @@
   //                              Bezug, themenbezogen, Sprache der Arbeit
   mit_widmung: false, // nur genehmigte Fassung, ohne religiösen Bezug
 
-  // ── hinten, nach dem Anhang und dem Literaturverzeichnis ────────────
+  // ── hinten, in dieser Reihenfolge nach dem Literaturverzeichnis ─────
+  mit_eigene_veroeffentlichungen: true, // eigene Publikationen
   mit_studentische_arbeiten: true, // betreute Abschlussarbeiten
   mit_abbildungsverzeichnis: true,
   mit_tabellenverzeichnis: true,
@@ -87,7 +88,9 @@
   mit_abkuerzungen: true,
   mit_glossar: true, // Verzeichnis der Definitionen
   mit_ki_erklaerung: true, // Erklärung zur Nutzung generativer KI
-  mit_eidesstattliche_erklaerung: true,
+  mit_eidesstattliche_erklaerung: true, // Formular der TUHH, steht fest
+  //                              in der Vorlage
+  // (danach folgt der Anhang, falls main.typ einen enthält)
   mit_lebenslauf: false, // eingereichte Fassung: Pflicht, letzte Seite
 
   // ══ Formelsatz ═══════════════════════════════════════════════════════

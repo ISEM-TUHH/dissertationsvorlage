@@ -8,19 +8,19 @@
 //  abzueglich 3 mm Beschnitt ringsum. Den Beschnitt legt erst
 //  tools/druckdatei.py an.
 //
-//  Schriftgrade, Satzbreite und Zeilenabstand sind aus der Referenz
-//  uebernommen. Bei drei Punkten geht die Vorlage bewusst darueber hinaus,
+//  Schriftgrade, Satzbreite, Stege und Zeilenabstand sind aus der Referenz
+//  uebernommen. Bei zwei Punkten geht die Vorlage bewusst darueber hinaus,
 //  weil die Referenz dort Word-Berichtssatz ist und kein Buchsatz:
 //
-//    Stege     Auszensteg breiter als Bundsteg (klassischer Buchsatz)
 //    Absaetze  Erstzeileneinzug statt Absatzabstand
-//    Register  alle senkrechten Abstaende sind Vielfache des Zeilenschritts
+//    Register  der Flieszttext steht auf einem Raster von 12,9 pt; nur
+//              Ueberschriften halten die Abstaende der Referenz
 //
 //  Grundwerte (Endformat 148 x 210 mm):
 //    Satzspiegel    119 x 173 mm, 38 Zeilen, 74 Zeichen je Zeile
-//    Bundsteg       14 mm, Auszensteg 15 mm (im Druck gespiegelt)
-//    Kopfsteg       16,85 mm (bis Oberkante der ersten Textzeile)
-//    Fuszsteg       20,1 mm
+//    Bundsteg       18 mm, Auszensteg 11 mm (im Druck gespiegelt)
+//    Kopfsteg       16 mm (bis Oberkante der ersten Textzeile)
+//    Fuszsteg       20,95 mm
 //    Grundschrift   Cambria 10 pt, Zeilenschritt 12,9 pt
 //    Ueberschriften 18 / 12 / 11 / 10 pt fett
 //    Kopfzeile      8 pt, Linie 0,45 pt schwarz
@@ -87,29 +87,28 @@
 
 // ── Satzspiegel ───────────────────────────────────────────────────────────
 //
-// Die Stege folgen dem klassischen Buchsatz: der Auszensteg ist breiter als
-// der Bundsteg, damit die aufgeschlagene Doppelseite als Einheit wirkt und
-// der Daumen Platz hat. Der Bundsteg bleibt mit 14 mm doppelt so breit wie
-// die 7 mm Falzkante, die das Datenblatt fuer die ersten und letzten
-// Blaetter des Hardcovers nennt.
+// Die Stege folgen der Referenz: der Bundsteg ist mit 18 mm breit, der
+// Auszensteg mit 11 mm schmal. Der breite Bund gleicht aus, was das
+// gebundene Buch am Falz verschluckt - das Datenblatt des Hardcovers nennt
+// fuer die ersten und letzten Blaetter 7 mm Falzkante.
 //
 // Im Druck wechseln Bund- und Auszensteg mit der Seite. Am Bildschirm wird
 // nicht geblaettert, sondern gescrollt - dort stehen die Raender gleich, sonst
 // springt der Text von Seite zu Seite.
 #let seiten-breite = 148mm
 #let seiten-hoehe = 210mm
-#let inner-margin = 14mm // Bundsteg
-#let outer-margin = 15mm // Auszensteg
+#let inner-margin = 18mm // Bundsteg
+#let outer-margin = 11mm // Auszensteg
 #let online-margin = (inner-margin + outer-margin) / 2 // 14,5 mm, mittig
 // Kopf- und Fuszsteg sind so gewaehlt, dass die erste Grundlinie auf
-// 20,20 mm liegt und 38 Zeilen auf die Seite gehen - beides wie gemessen.
-#let page-top-margin = 16.85mm
-#let page-bottom-margin = 20.1mm
+// 19,35 mm liegt und 38 Zeilen auf die Seite gehen - beides wie gemessen.
+#let page-top-margin = 16mm
+#let page-bottom-margin = 20.95mm
 #let satz-breite = seiten-breite - inner-margin - outer-margin // 119 mm
 #let page-body-height = seiten-hoehe - page-top-margin - page-bottom-margin // 171 mm
 
 // Abstand der Kopfzeilenlinie zum Satzspiegel.
-#let header-ascent = 3.68mm
+#let header-ascent = 2.83mm
 
 // ── Vertikales Raster ─────────────────────────────────────────────────────
 // Word legt die Zeilenbox mit Cambrias Schriftmaszen an (Oberlaenge 0,95 em,
@@ -145,8 +144,15 @@
 // Bildunterschriften stehen einen Grad kleiner als der Flieszttext.
 #let beschriftung-groesze = 9pt
 
-// Abstand der Kapitelueberschrift zum Kopfsteg: fuenf Rasterzeilen.
-#let kapitel-abstand-oben = 5 * raster
+// Abstand der Kapitelueberschrift zum Kopfsteg und zum folgenden Text, wie in
+// der Referenz gemessen: Grundlinie 89,6 pt unter der ersten Rasterzeile,
+// 27,5 pt bis zur ersten Textzeile. Die Kapitelseite verlaesst damit - wie
+// in Word - das Raster der uebrigen Seiten.
+#let kapitel-abstand-oben = 5 * raster - 4.5pt
+#let kapitel-kuerzung = 3.6pt
+// Unter einer Abschnittsueberschrift (Ebene 2 bis 4) stehen wie in der
+// Referenz 19,5 pt bis zur naechsten Grundlinie statt zweier Rasterzeilen.
+#let abschnitt-kuerzung = 4.4pt
 
 // ── Ueberschriften: Einzuege ──────────────────────────────────────────────
 // Nummer steht am Bundsteg, der Titel an einem festen Tabulator; laeuft der
@@ -180,19 +186,22 @@
 ///
 /// `luft` ist der Mindestabstand, der unter dem Inhalt frei bleiben soll,
 /// bevor auf die naechste Rasterzeile aufgerundet wird.
-#let auf-raster(inhalt, luft: 0pt) = layout(groesze => context {
+///
+/// `kuerzung` nimmt von der aufgerundeten Hoehe wieder etwas weg - fuer die
+/// Ueberschriften, die die Abstaende der Referenz halten statt des Rasters.
+#let auf-raster(inhalt, luft: 0pt, kuerzung: 0pt) = layout(groesze => context {
   let hoehe = measure(inhalt, width: groesze.width).height
   let zeilen = calc.max(1, calc.ceil((hoehe + luft + raster-phase - 0.05pt) / raster))
-  block(width: 100%, height: zeilen * raster - raster-phase, spacing: 0pt, inhalt)
+  block(width: 100%, height: zeilen * raster - raster-phase - kuerzung, spacing: 0pt, inhalt)
 })
 
 /// Rasterblock mit Vorlauf: `vor` leere Rasterzeilen ueber dem Inhalt.
-#let raster-block(inhalt, vor: 1, nach: 0, luft: 0pt, sticky: false) = block(
+#let raster-block(inhalt, vor: 1, nach: 0, luft: 0pt, kuerzung: 0pt, sticky: false) = block(
   above: vor * raster + raster-phase,
   below: nach * raster + raster-phase,
   breakable: false,
   sticky: sticky,
-  auf-raster(inhalt, luft: luft),
+  auf-raster(inhalt, luft: luft, kuerzung: kuerzung),
 )
 
 /// Nummer an einem Tabulator, Fortsetzungszeilen haengend eingezogen.
@@ -517,7 +526,8 @@
       }
     })
     if groesze == 18pt { v(kapitel-abstand-oben, weak: false) }
-    raster-block(vor: 0, luft: 6pt, sticky: true, koerper)
+    raster-block(vor: 0, luft: 6pt, sticky: true, koerper,
+      kuerzung: if groesze == 18pt { kapitel-kuerzung } else { 0pt })
   }
 
   show heading.where(level: 2).or(heading.where(level: 3)).or(heading.where(level: 4)): it => {
@@ -525,7 +535,7 @@
     let groesze = heading-size.at(str(stufe), default: 10pt)
     // Eine Rasterzeile Vorlauf, der Rest wird auf volle Zeilen aufgerundet;
     // `sticky` haelt die Ueberschrift beim folgenden Text.
-    raster-block(vor: 1, luft: 6pt, sticky: true,
+    raster-block(vor: 1, luft: 6pt, kuerzung: abschnitt-kuerzung, sticky: true,
       text(font: display-font, size: groesze, weight: "bold", {
         if it.numbering != none {
           nummeriert(
@@ -611,6 +621,14 @@
 
 // ═══ Bausteine ═════════════════════════════════════════════════════════════
 
+/// Seitenzahl an einer Stelle des Dokuments, in der Zaehlweise, die dort
+/// gilt - roemisch in Titelei und Nachspann, arabisch im Hauptteil.
+#let seitenzahl-bei(ort) = {
+  let muster = ort.page-numbering()
+  let n = counter(page).at(ort)
+  if muster == none { str(n.first()) } else { numbering(muster, ..n) }
+}
+
 /// Seitenwechsel vor einem neuen Teil. Im Druck beginnen Kapitel und Teile
 /// auf einer rechten Seite - davor entsteht, wenn noetig, eine Vakatseite.
 /// Am Bildschirm wird gescrollt, nicht geblaettert: Online- und
@@ -666,7 +684,7 @@
       let nummer = if e.numbering != none {
         numbering(e.numbering, ..counter(heading).at(e.location()))
       } else { none }
-      let seite = counter(page).at(e.location()).first()
+      let seite = seitenzahl-bei(e.location())
       // Der haengende Einzug wird unmittelbar am Absatz gesetzt, nicht
       // ueber eine set-Regel: sonst greift er innerhalb von `pad` nicht,
       // und die zweite Zeile eines langen Titels rutscht unter die Nummer
@@ -727,7 +745,7 @@
             h(0.45em)
             e.caption.body
             box(width: 1fr, inset: (x: 0.4em), repeat(justify: false, [.]))
-            [#counter(page).at(ort).first()]
+            seitenzahl-bei(ort)
           })
         })
       }
@@ -757,7 +775,7 @@
             h(0.45em)
             e.value.titel
             box(width: 1fr, inset: (x: 0.4em), repeat(justify: false, [.]))
-            [#counter(page).at(ort).first()]
+            seitenzahl-bei(ort)
           })
         })
       }
@@ -780,13 +798,39 @@
 /// Literaturverzeichnis. Der Koerper wird uebergeben, damit der
 /// `bibliography()`-Aufruf in main.typ stehen bleibt - Typst loest den Pfad
 /// relativ zur aufrufenden Datei auf.
+/// Satz einer Literaturliste wie in der Referenz: Blocksatz, Zeilenschritt
+/// 11,7 pt, 3 pt zwischen den Eintraegen, haengender Einzug 7 mm. Autor und
+/// Jahr stehen fett - im Literaturverzeichnis setzt das der Zitierstil, in
+/// den Listen der eigenen Veroeffentlichungen und betreuten Arbeiten der
+/// Eintrag selbst (`*Mustermann, M. (2025).*`).
+#let literatur-einzug = 7mm
+#let literaturliste(body) = {
+  set par(
+    justify: true,
+    leading: 11.7pt - zeilenkasten * 1em,
+    spacing: 3pt,
+    first-line-indent: 0pt,
+    hanging-indent: literatur-einzug,
+  )
+  body
+}
+
 #let bibliography-page(body, titel: "Literaturverzeichnis") = [
   #front-heading(titel, verzeichnet: true)
-  // Literaturangaben stehen dicht: der haengende Einzug trennt sie schon
-  // deutlich genug, eine leere Zeile dazwischen zoege das Verzeichnis nur
-  // unnoetig in die Laenge.
-  #set par(spacing: raster-phase, justify: false, first-line-indent: 0pt)
-  #body
+  // Typst setzt den haengenden Einzug des Zitierstils fest: jeder Eintrag
+  // ist ein Block mit 1,5 em Einzug, der mit einem negativen Abstand
+  // beginnt. Die Eintraege werden darum zu Absaetzen mit dem Einzug der
+  // Referenz umgebaut.
+  #show bibliography: it => {
+    show block: b => {
+      let teile = if b.body != none and b.body.has("children") { b.body.children } else { () }
+      if teile.len() > 1 and teile.first().func() == h {
+        block(above: b.above, below: b.below, width: 100%, par(teile.slice(1).join()))
+      } else { b }
+    }
+    it
+  }
+  #literaturliste(body)
 ]
 
 /// Anhangteil: wie eine Vorspann-Ueberschrift gesetzt (12 pt fett), aber
@@ -860,37 +904,45 @@
   align(center, image(pfad, alt: alt, height: masz.height * 72 / 300))
 })
 
-/// Kasten fuer Definitionen: duenne Petrol-Linie links.
+/// Kasten fuer Definitionen: kraeftige Petrol-Linie links.
 /// Zaehler der Definitionen. Sie laufen durch das ganze Buch, nicht
 /// kapitelweise - so fuehrt es auch das Glossar.
 #let definitionszaehler = counter("isem-definition")
 
-/// Definitionskasten mit Titel.
+/// Definitionskasten wie in der Referenz: kraeftige Petrol-Linie links,
+/// keine Titelzeile. Der definierte Begriff wird im Satz selbst
+/// hervorgehoben - fett in Petrol, ueberall, wo er im Kasten vorkommt.
 ///
-///     #definitionsbox[Zielsystem][Ein vollstaendiges Zielsystem ...]
+///     #definitionsbox[Zielsystem][Ein *Zielsystem* ist ...]
 ///
-/// Die Nummer setzt der Kasten selbst. Er legt ausserdem eine Marke ab, aus
-/// der das Glossar Nummer, Titel und Seite liest.
-#let definitionsbox(titel, body) = raster-block(vor: 1, luft: 0pt, block(
-  width: 100%,
-  spacing: 0pt,
-  inset: (left: 3mm, top: raster - raster-phase, bottom: raster - raster-phase),
-  stroke: (left: 1pt + accent),
-  {
-    // Im Kasten stehen die Absaetze eine Rasterzeile auseinander.
-    set par(first-line-indent: 0pt, spacing: raster + raster-phase)
-    definitionszaehler.step()
-    context [
-      #metadata((
+/// Der Titel erscheint nicht im Kasten, aber im Glossar. Die Nummer zaehlt
+/// der Kasten selbst und legt dazu eine Marke ab, aus der das Glossar
+/// Nummer, Titel und Seite liest.
+#let definitionsbox(titel, body) = {
+  let begriff = if type(titel) == str { titel } else if titel.has("text") { titel.text } else { none }
+  // Die Linie sitzt mittig auf der Blockkante; der Versatz um ihre halbe
+  // Staerke laesst sie wie in der Referenz am Satzspiegelrand beginnen.
+  raster-block(vor: 1, nach: 1, luft: 0pt, pad(left: 1.1pt, block(
+    width: 100%,
+    spacing: 0pt,
+    inset: (left: 6.5pt - 1.1pt, right: 7.6pt),
+    stroke: (left: 2.2pt + accent),
+    {
+      set par(first-line-indent: 0pt)
+      show strong: set text(fill: accent)
+      show: it => if begriff != none {
+        show begriff: b => text(fill: accent, weight: "bold", b)
+        it
+      } else { it }
+      definitionszaehler.step()
+      context [#metadata((
         nummer: definitionszaehler.get().first(),
         titel: titel,
-      )) <isem-definition>
-      #strong[Definition #definitionszaehler.display("1"): #titel]
-    ]
-    parbreak()
-    body
-  },
-))
+      )) <isem-definition>]
+      body
+    },
+  )))
+}
 
 /// Nummerierte Gleichung, kapitelweise gezaehlt.
 #let gleichungs-nummer = n => context numbering(

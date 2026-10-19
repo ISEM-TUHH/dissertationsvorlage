@@ -8,11 +8,12 @@
 //      #show: buch.with(diss, kapitel: (...), ...)
 //
 //  Die Reihenfolge der Bestandteile folgt der Referenzfassung
-//  "Diss_Artur_Krause_ISEM-Vorlage.pdf".
+//  "Diss_Artur_Krause_ISEM-Vorlage.pdf", der Nachspann der Fassung
+//  "Dissertation V0 - Artur_Krause" vom September 2026.
 // ===========================================================================
 
 #import "isem.typ": *
-#import "tuhh.typ": deckblatt, deckblatt-rueckseite, pruefe, regeln
+#import "tuhh.typ": deckblatt, deckblatt-rueckseite, eidesstattliche-erklaerung, pruefe, regeln
 #import "impressum.typ": impressumsseite, schmutztitel
 #import "bezeichner.typ": bezeichner
 
@@ -139,12 +140,59 @@
   // ═══ Hauptteil ═════════════════════════════════════════════════════════
   set page(header: laufender-kopf(), numbering: "1")
   // Erst umbrechen, dann die arabische Zaehlung starten: so traegt die erste
-  // Kapitelseite wirklich die 1 und nicht eine vorangehende Vakatseite.
+  // Kapitelseite wirklich die 1 und nicht eine vorangehende Vakatseite. Die
+  // Marke haelt fest, bis wohin die roemische Zaehlung der Titelei lief -
+  // der Nachspann zaehlt dort weiter.
   neue-seite()
+  [#metadata("hauptteil")<isem-hauptteil>]
   counter(page).update(1)
 
   for k in kapitel {
     kapitel-setzen(k.titel, kennung: k.at("kennung", default: none))[#k.inhalt]
+  }
+
+  // ═══ Nachspann ═════════════════════════════════════════════════════════
+  // Wie in der Referenz: roemisch nummeriert, in der Zaehlung der Titelei
+  // fortgesetzt (die Vakatseite vor Kapitel 1 zaehlt mit).
+  set page(numbering: "I")
+  neue-seite()
+  context counter(page).update(counter(page).at(<isem-hauptteil>).first())
+  set heading(numbering: none)
+
+  // ═══ Literaturverzeichnis ══════════════════════════════════════════════
+  // Zitierstil des ISEM, ein Fusznotenstil: die Belege erscheinen am Fusz
+  // der Seite. Der bibliography()-Aufruf steht in inhalt/main.typ, damit der
+  // Pfad zur literatur.bib dort aufgeloest wird.
+  bibliography-page(titel: t.literatur, literatur)
+
+  // Eigene Veroeffentlichungen und betreute Arbeiten sind Listen im Satz des
+  // Literaturverzeichnisses. Der Schalter fuer die eigenen Veroeffentlichungen
+  // kam spaeter hinzu - aeltere angaben.typ kennen ihn nicht.
+  if diss.at("mit_eigene_veroeffentlichungen", default: false) [
+    #front-heading(t.eigene_veroeffentlichungen)
+    #literaturliste(include inhaltspfad("/titelei/eigene_veroeffentlichungen.typ"))
+  ]
+  if diss.mit_studentische_arbeiten [
+    #front-heading(t.studentische_arbeiten)
+    #literaturliste(include inhaltspfad("/titelei/studentische_arbeiten.typ"))
+  ]
+
+  // ═══ Verzeichnisse ═════════════════════════════════════════════════════
+  if diss.mit_abbildungsverzeichnis { list-page(t.abbildungen, image, t.abbildung) }
+  if diss.mit_tabellenverzeichnis { list-page(t.tabellen, table, t.tabelle) }
+  if diss.mit_formelzeichen { acronym-page(titel: t.formelzeichen, formelzeichen) }
+  if diss.mit_abkuerzungen { acronym-page(titel: t.abkuerzungen, abkuerzungen) }
+  if diss.mit_glossar { definitionen-page(titel: t.glossar) }
+
+  // ═══ Erklaerungen ══════════════════════════════════════════════════════
+  if diss.mit_ki_erklaerung [
+    #front-heading(t.ki_erklaerung)
+    #include inhaltspfad("/titelei/ki_erklaerung.typ")
+  ]
+  // Das Formular der TUHH steht fest in der Vorlage, ohne Seitenkopf.
+  if diss.mit_eidesstattliche_erklaerung {
+    neue-seite()
+    page(header: none, eidesstattliche-erklaerung(titel: t.eidesstattlich))
   }
 
   // ═══ Anhang ════════════════════════════════════════════════════════════
@@ -161,36 +209,6 @@
       anhang-setzen(a.titel, kennung: a.at("kennung", default: none))[#a.inhalt]
     }
   }
-
-  // ═══ Literaturverzeichnis ══════════════════════════════════════════════
-  // Zitierstil des ISEM, ein Fusznotenstil: die Belege erscheinen am Fusz
-  // der Seite. Der bibliography()-Aufruf steht in inhalt/main.typ, damit der
-  // Pfad zur literatur.bib dort aufgeloest wird.
-  set heading(numbering: none)
-
-  bibliography-page(titel: t.literatur, literatur)
-
-  if diss.mit_studentische_arbeiten [
-    #front-heading(t.studentische_arbeiten)
-    #include inhaltspfad("/titelei/studentische_arbeiten.typ")
-  ]
-
-  // ═══ Verzeichnisse ═════════════════════════════════════════════════════
-  if diss.mit_abbildungsverzeichnis { list-page(t.abbildungen, image, t.abbildung) }
-  if diss.mit_tabellenverzeichnis { list-page(t.tabellen, table, t.tabelle) }
-  if diss.mit_formelzeichen { acronym-page(titel: t.formelzeichen, formelzeichen) }
-  if diss.mit_abkuerzungen { acronym-page(titel: t.abkuerzungen, abkuerzungen) }
-  if diss.mit_glossar { definitionen-page(titel: t.glossar) }
-
-  // ═══ Erklaerungen ══════════════════════════════════════════════════════
-  if diss.mit_ki_erklaerung [
-    #front-heading(t.ki_erklaerung)
-    #include inhaltspfad("/titelei/ki_erklaerung.typ")
-  ]
-  if diss.mit_eidesstattliche_erklaerung [
-    #front-heading(t.eidesstattlich)
-    #include inhaltspfad("/titelei/eidesstattliche_erklaerung.typ")
-  ]
 
   // ═══ Lebenslauf ════════════════════════════════════════════════════════
   // In der eingereichten Fassung Pflicht und ausdruecklich die letzte

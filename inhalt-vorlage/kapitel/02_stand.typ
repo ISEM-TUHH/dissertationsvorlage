@@ -17,7 +17,7 @@ selbst und erscheint zugleich im Glossar am Ende des Bandes — die Nummer
 schreibst du nicht, sie entsteht:
 
 #definitionsbox[Sicht][
-    Eine Sicht ist eine zweckgebundene Auswahl aus einem Modell, die für eine
+  Eine Sicht ist eine zweckgebundene Auswahl aus einem Modell, die für eine
   bestimmte Personengruppe zu einem bestimmten Zeitpunkt relevant ist.
 ]
 

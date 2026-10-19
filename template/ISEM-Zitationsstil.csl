@@ -1770,8 +1770,11 @@
         </if>
         <else-if type="standard" match="any">
           <group>
-            <text variable="number"/>
-            <date variable="issued" prefix=" (" suffix=")." form="numeric"/>
+            <group font-weight="bold">
+              <text variable="number"/>
+              <date variable="issued" prefix=" (" suffix=")" form="numeric"/>
+            </group>
+            <text value="."/>
             <group delimiter=", " suffix=".">
               <text variable="title" font-style="italic"/>
               <text variable="publisher"/>
@@ -1781,8 +1784,10 @@
         <else>
           <group delimiter=" ">
             <group delimiter=". " suffix=".">
-              <text macro="author-bib"/>
-              <text macro="date-bib"/>
+              <group delimiter=". " font-weight="bold">
+                <text macro="author-bib"/>
+                <text macro="date-bib"/>
+              </group>
               <text macro="title-and-descriptions"/>
               <text macro="container"/>
               <text macro="event"/>
